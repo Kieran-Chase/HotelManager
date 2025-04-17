@@ -3,11 +3,13 @@ package com.coder.hotel.util;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 
 public class DBUtil {
     private static final String DRIVER;
@@ -33,35 +35,43 @@ public class DBUtil {
     public static Connection getConnection() {
         try {
             Class.forName(DRIVER);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-
-    public static Connection getConnectionPool() {
+    public static DataSource getDataSource(){
         try {
             Class<?> aClass = Class.forName(poolClass);
-            Object dataSource = aClass.getConstructor().newInstance();
+            Object o = aClass.getConstructor().newInstance();
             Method method1 = aClass.getMethod("setDriverClassName", String.class);
-            method1.invoke(dataSource, DRIVER);
-
-            if (aClass == DruidDataSource.class) {
+            method1.invoke(o, DRIVER);
+            if (aClass.getName().equals(DruidDataSource.class.getName())) {
                 Method method2 = aClass.getMethod("setUrl", String.class);
-                method2.invoke(dataSource, URL);
-            } else if (aClass == HikariDataSource.class) {
+                method2.invoke(o, URL);
+            } else if (aClass.getName().equals(HikariDataSource.class.getName())) {
                 Method method2 = aClass.getMethod("setJdbcUrl", String.class);
-                method2.invoke(dataSource, URL);
+                method2.invoke(o, URL);
             }
-
             Method method3 = aClass.getMethod("setUsername", String.class);
-            method3.invoke(dataSource, USERNAME);
+            method3.invoke(o, USERNAME);
             Method method4 = aClass.getMethod("setPassword", String.class);
-            method4.invoke(dataSource, PASSWORD);
-
-            Method method5 = aClass.getMethod("getConnection");
-            return (Connection) method5.invoke(dataSource);
+            method4.invoke(o, PASSWORD);
+            return (DataSource) o;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static Connection getConnectionPool() {
+        try {
+            DataSource dataSource=getDataSource();
+            return dataSource.getConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,28 +116,25 @@ public class DBUtil {
      * @return 影响的行数
      */
     public static int executeUpdate(String sql) {
-        try (Connection connection = getConnection();
-             Statement statement = createStatement(connection)) {
-            return executeUpdate(statement, sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
+        Connection connection = getConnection();
+        Statement statement = createStatement(connection);
+        int i = executeUpdate(statement, sql);
+        DBUtil.close(statement, connection);
+        return i;
     }
-
     public static int executeUpdatePool(String sql) {
-        try (Connection connection = getConnectionPool();
-             Statement statement = createStatement(connection)) {
-            return executeUpdate(statement, sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
+        Connection connection = getConnectionPool();
+        Statement statement = createStatement(connection);
+        int i = executeUpdate(statement, sql);
+        DBUtil.close(statement, connection);
+        return i;
     }
 
-    public static int executeUpdatePrepared(String sql, Object... args) {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+    public static int executeUpdatePrepared(String sql, Object... args) {//0...n
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
             int index = 1;
             for (Object arg : args) {
                 statement.setObject(index++, arg);
@@ -135,13 +142,16 @@ public class DBUtil {
             return statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
+        } finally {
+            DBUtil.close(statement, connection);
         }
-        return -1;
     }
-
-    public static int executeUpdatePreparedPool(String sql, Object... args) {
-        try (Connection connection = getConnectionPool();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+    public static int executeUpdatePreparedPool(String sql, Object... args) {//0...n
+        Connection connection = getConnectionPool();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
             int index = 1;
             for (Object arg : args) {
                 statement.setObject(index++, arg);
@@ -149,13 +159,17 @@ public class DBUtil {
             return statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
+        } finally {
+            DBUtil.close(statement, connection);
         }
-        return -1;
     }
 
-    public static void executeBatch(String sql, List<Map<Integer, Object>> list) {
-        try (Connection connection = getConnectionPool();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+    public static void executeBatch(String sql, List<Map<Integer,Object>> list){
+        Connection connection = getConnectionPool();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
             for (Map<Integer, Object> map : list) {
                 for (Map.Entry<Integer, Object> entry : map.entrySet()) {
                     statement.setObject(entry.getKey(), entry.getValue());
@@ -165,9 +179,10 @@ public class DBUtil {
             statement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DBUtil.close(statement, connection);
         }
     }
-
     /**
      * 查询方法
      *
@@ -189,18 +204,18 @@ public class DBUtil {
     public static DBObject executeQueryPrepared(String sql, Object... args) {
         Connection connection = getConnection();
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
             int index = 1;
             for (Object arg : args) {
                 statement.setObject(index++, arg);
             }
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            return new DBObject(connection, statement, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return new DBObject(connection, statement, resultSet);
     }
 
     public static void close(DBObject dbObject) {
@@ -266,9 +281,9 @@ public class DBUtil {
     /**
      * 关闭连接、语句对象和结果集
      *
-     * @param resultSet
      * @param statement
      * @param connection
+     * @param resultSet
      */
     public static void close(ResultSet resultSet, Statement statement, Connection connection) {
         close(resultSet);

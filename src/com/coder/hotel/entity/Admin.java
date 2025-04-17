@@ -1,36 +1,29 @@
 package com.coder.hotel.entity;
 
 import com.coder.hotel.util.IdType;
-import com.coder.hotel.util.Tableld;
+import com.coder.hotel.util.TableId;
 
 import java.time.LocalDateTime;
 
 /**
- * @author wangqicheng
- * @project HotelManager
- * @date 2025/4/14
+ @author wangqicheng
+ @project HotelManager
+ @date 2025/4/16
  */
+
 public class Admin {
-    @Tableld(IdType.AUTO_INCREMENT)
-    private int id;
+    @TableId(IdType.AUTO_INCREMENT)
+    private Integer id;
     private String name;
-    private String password;
+    private String pwd;
+    private LocalDateTime lasttime;
 
-
-    public LocalDateTime getLasttime() {
-        return lasttime;
+    public Integer getId() {
+        return id;
     }
 
-    public void setLasttime(LocalDateTime lasttime) {
-        this.lasttime = lasttime;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -41,13 +34,19 @@ public class Admin {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
-    private LocalDateTime lasttime;
+    public LocalDateTime getLasttime() {
+        return lasttime;
+    }
+
+    public void setLasttime(LocalDateTime lasttime) {
+        this.lasttime = lasttime;
+    }
 }

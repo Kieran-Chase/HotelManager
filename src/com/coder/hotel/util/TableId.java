@@ -3,9 +3,8 @@ package com.coder.hotel.util;
 /**
  * @author wangqicheng
  * @project HotelManager
- * @date 2025/4/14
+ * @date 2025/4/16
  */
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -19,6 +18,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Tableld {
+public @interface TableId {
     IdType value() default IdType.AUTO_INCREMENT;
 }

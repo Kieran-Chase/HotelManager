@@ -127,7 +127,7 @@ public class LoginUi extends JFrame {
             codeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             codeLabel.setFont(new Font("Segoe Print", Font.PLAIN, 16));
             codeLabel.setToolTipText("\u70b9\u51fb\u5237\u65b0");
-            codeLabel.setText("1234");
+            codeLabel.setText(StringUtil.getCode());
             codeLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -187,5 +187,6 @@ public class LoginUi extends JFrame {
     private JTextField codeLabel;
     private JButton button1;
     private JLabel label8;
+    private String cv;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

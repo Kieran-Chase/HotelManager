@@ -12,111 +12,124 @@ new FormModel {
 			"title": "酒店管理系统"
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button1"
-				"text": "房间类型管理"
+				"font": new java.awt.Font( "Microsoft YaHei UI", 1, 12 )
+				"text": "房间类型"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/类型 (2).png" )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 100
+				"x": 55
 				"y": 115
-				"height": 100
-				"width": 100
+				"height": 115
+				"width": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button2"
 				"text": "房间管理"
+				"font": &Font0 new java.awt.Font( "Microsoft YaHei UI", 1, 16 )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 195
+				"x": 170
 				"y": 115
-				"width": 100
-				"height": 100
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button3"
 				"text": "用户管理"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 290
+				"x": 285
 				"y": 115
-				"width": 100
-				"height": 100
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button4"
 				"text": "会员等级"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 385
+				"x": 400
 				"y": 115
-				"width": 100
-				"height": 100
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button5"
 				"text": "会员信息"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 480
+				"x": 515
 				"y": 115
-				"width": 100
-				"height": 100
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button6"
 				"text": "订单管理"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 100
-				"y": 285
-				"width": 100
-				"height": 100
+				"x": 55
+				"y": 230
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button7"
 				"text": "房间打扫"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 195
-				"y": 285
-				"width": 100
-				"height": 100
+				"x": 170
+				"y": 230
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button8"
 				"text": "商品管理"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 480
-				"y": 285
-				"width": 100
-				"height": 100
+				"x": 515
+				"y": 230
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button9"
 				"text": "商品订单"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 575
-				"y": 285
-				"width": 100
-				"height": 100
+				"x": 630
+				"y": 230
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button10"
 				"text": "退房管理"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 575
+				"x": 630
 				"y": 115
-				"width": 100
-				"height": 100
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button11"
 				"text": "财务管理"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 385
-				"y": 285
-				"width": 100
-				"height": 100
+				"x": 400
+				"y": 230
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button12"
 				"text": "住宿类型"
+				"font": #Font0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 290
-				"y": 285
-				"width": 100
-				"height": 100
+				"x": 285
+				"y": 230
+				"width": 115
+				"height": 115
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label2"

@@ -24,6 +24,9 @@ public class MainUi extends JFrame {
         return UI;
     }
 
+    public static void main(String[] args) {
+        UiUtil.indent(null,UI);
+    }
 
 
     private void initComponents() {
@@ -51,64 +54,77 @@ public class MainUi extends JFrame {
         contentPane.setLayout(null);
 
         //---- button1 ----
-        button1.setText("\u623f\u95f4\u7c7b\u578b\u7ba1\u7406");
+        button1.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
+        button1.setText("\u623f\u95f4\u7c7b\u578b");
+        button1.setIcon(new ImageIcon(getClass().getResource("/img/\u7c7b\u578b (2).png")));
         contentPane.add(button1);
-        button1.setBounds(100, 115, 100, 100);
+        button1.setBounds(55, 115, 115, 115);
 
         //---- button2 ----
         button2.setText("\u623f\u95f4\u7ba1\u7406");
+        button2.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button2);
-        button2.setBounds(195, 115, 100, 100);
+        button2.setBounds(170, 115, 115, 115);
 
         //---- button3 ----
         button3.setText("\u7528\u6237\u7ba1\u7406");
+        button3.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button3);
-        button3.setBounds(290, 115, 100, 100);
+        button3.setBounds(285, 115, 115, 115);
 
         //---- button4 ----
         button4.setText("\u4f1a\u5458\u7b49\u7ea7");
+        button4.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button4);
-        button4.setBounds(385, 115, 100, 100);
+        button4.setBounds(400, 115, 115, 115);
 
         //---- button5 ----
         button5.setText("\u4f1a\u5458\u4fe1\u606f");
+        button5.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button5);
-        button5.setBounds(480, 115, 100, 100);
+        button5.setBounds(515, 115, 115, 115);
 
         //---- button6 ----
         button6.setText("\u8ba2\u5355\u7ba1\u7406");
+        button6.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button6);
-        button6.setBounds(100, 285, 100, 100);
+        button6.setBounds(55, 230, 115, 115);
 
         //---- button7 ----
         button7.setText("\u623f\u95f4\u6253\u626b");
+        button7.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button7);
-        button7.setBounds(195, 285, 100, 100);
+        button7.setBounds(170, 230, 115, 115);
 
         //---- button8 ----
         button8.setText("\u5546\u54c1\u7ba1\u7406");
+        button8.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button8);
-        button8.setBounds(480, 285, 100, 100);
+        button8.setBounds(515, 230, 115, 115);
 
         //---- button9 ----
         button9.setText("\u5546\u54c1\u8ba2\u5355");
+        button9.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button9);
-        button9.setBounds(575, 285, 100, 100);
+        button9.setBounds(630, 230, 115, 115);
 
         //---- button10 ----
         button10.setText("\u9000\u623f\u7ba1\u7406");
+        button10.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button10);
-        button10.setBounds(575, 115, 100, 100);
+        button10.setBounds(630, 115, 115, 115);
 
         //---- button11 ----
         button11.setText("\u8d22\u52a1\u7ba1\u7406");
+        button11.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button11);
-        button11.setBounds(385, 285, 100, 100);
+        button11.setBounds(400, 230, 115, 115);
 
         //---- button12 ----
         button12.setText("\u4f4f\u5bbf\u7c7b\u578b");
+        button12.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 16));
         contentPane.add(button12);
-        button12.setBounds(290, 285, 100, 100);
+        button12.setBounds(285, 230, 115, 115);
 
         //---- label2 ----
         label2.setText("\u8bf7\u9009\u62e9\u83dc\u5355");

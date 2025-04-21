@@ -30,11 +30,8 @@ public class TableUi extends JFrame {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        scrollPane1=new JScrollPane();
-        Object[] columnNames=new Object[]{"姓名","性别","年龄"};
-        Object[][]data={{"张三","男",20},{"李四","女",25},{"王五","男",24}};
-        model=new CustomModel(data,columnNames);
-        table1 = new JTable(model);
+        scrollPane1 = new JScrollPane();
+        table1 = new JTable();
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -57,6 +54,5 @@ public class TableUi extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     private JScrollPane scrollPane1;
     private JTable table1;
-    private CustomModel model;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

@@ -28,6 +28,10 @@ public class MainUi extends JFrame {
         UiUtil.indent(null,UI);
     }
 
+    private void linkRoomTypeUi(ActionEvent e) {
+        UiUtil.indent(UI,RoomTypeUi.getInstance());
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -57,6 +61,7 @@ public class MainUi extends JFrame {
         button1.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         button1.setText("\u623f\u578b\u7ba1\u7406");
         button1.setIcon(new ImageIcon(getClass().getResource("/img/\u7c7b\u578b (2).png")));
+        button1.addActionListener(e -> linkRoomTypeUi(e));
         contentPane.add(button1);
         button1.setBounds(55, 230, 115, 115);
 

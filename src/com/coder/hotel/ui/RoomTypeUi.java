@@ -6,6 +6,7 @@ package com.coder.hotel.ui;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
@@ -19,6 +20,12 @@ public class RoomTypeUi extends JFrame {
         return UI;
     }
 
+    class CustomModel extends DefaultTableModel {
+        public CustomModel(Object [][] data,Object[]column){
+            super(data,column);
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         label1 = new JLabel();
@@ -29,6 +36,9 @@ public class RoomTypeUi extends JFrame {
         label2 = new JLabel();
         textField1 = new JTextField();
         button9 = new JButton();
+        scrollPane1 = new JScrollPane();
+        table1 = new JTable();
+        label3 = new JLabel();
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -49,19 +59,19 @@ public class RoomTypeUi extends JFrame {
         button6.setText("\u65b0\u589e");
         button6.setIcon(new ImageIcon(getClass().getResource("/img/\u65b0\u589e.png")));
         contentPane.add(button6);
-        button6.setBounds(new Rectangle(new Point(45, 155), button6.getPreferredSize()));
+        button6.setBounds(25, 130, 90, 50);
 
         //---- button7 ----
         button7.setText("\u5220\u9664");
         button7.setIcon(new ImageIcon(getClass().getResource("/img/\u5220 \u9664 .png")));
         contentPane.add(button7);
-        button7.setBounds(new Rectangle(new Point(120, 155), button7.getPreferredSize()));
+        button7.setBounds(115, 130, 85, 50);
 
         //---- button8 ----
         button8.setText("\u4fee\u6539");
         button8.setIcon(new ImageIcon(getClass().getResource("/img/\u4fee\u6539.png")));
         contentPane.add(button8);
-        button8.setBounds(new Rectangle(new Point(195, 155), button8.getPreferredSize()));
+        button8.setBounds(200, 130, 85, 50);
 
         //======== panel1 ========
         {
@@ -82,7 +92,19 @@ public class RoomTypeUi extends JFrame {
             button9.setBounds(410, 10, 80, 40);
         }
         contentPane.add(panel1);
-        panel1.setBounds(25, 90, 750, 55);
+        panel1.setBounds(25, 75, 750, 55);
+
+        //======== scrollPane1 ========
+        {
+            scrollPane1.setViewportView(table1);
+        }
+        contentPane.add(scrollPane1);
+        scrollPane1.setBounds(25, 180, 750, 265);
+
+        //---- label3 ----
+        label3.setIcon(new ImageIcon(getClass().getResource("/img/bg.jpg")));
+        contentPane.add(label3);
+        label3.setBounds(0, 0, 800, 500);
 
         contentPane.setPreferredSize(new Dimension(800, 530));
         pack();
@@ -99,5 +121,8 @@ public class RoomTypeUi extends JFrame {
     private JLabel label2;
     private JTextField textField1;
     private JButton button9;
+    private JScrollPane scrollPane1;
+    private JTable table1;
+    private JLabel label3;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

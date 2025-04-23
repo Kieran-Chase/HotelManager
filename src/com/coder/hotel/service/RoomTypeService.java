@@ -1,0 +1,25 @@
+package com.coder.hotel.service;
+
+import com.coder.hotel.dao.RoomTypeDao;
+import com.coder.hotel.dao.impl.RoomTypeDaoImpl;
+import com.coder.hotel.entity.RoomType;
+
+import java.util.List;
+
+/**
+ * @author wangqicheng
+ * @project HotelManager
+ * @date 2025/4/23
+ */
+public class RoomTypeService {
+    private static RoomTypeDao dao;
+    static {
+        dao=new RoomTypeDaoImpl();
+    }
+    public int save(RoomType type){
+        return dao.save(type);
+    }
+    public List<RoomType> selectList(){
+        return dao.selectList();
+    }
+}

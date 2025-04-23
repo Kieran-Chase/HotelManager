@@ -4,7 +4,11 @@
 
 package com.coder.hotel.ui;
 
+import com.coder.hotel.entity.RoomType;
+import com.coder.hotel.service.RoomTypeService;
+
 import java.awt.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,7 +41,34 @@ public class RoomTypeUi extends JFrame {
         textField1 = new JTextField();
         button9 = new JButton();
         scrollPane1 = new JScrollPane();
-        table1 = new JTable();
+        //先从数据库中提取数据
+        RoomTypeService service =new RoomTypeService();
+        List<RoomType> roomTypes = service.selectList();
+        //将数据转成Object[][]
+        Object[][]values=new Object[roomTypes.size()][6];
+        int index=0;
+        for (RoomType roomType : roomTypes) {
+            values[index][0]=roomType.getId();
+            values[index][1]=roomType.getType();
+            values[index][2]=roomType.getPrice();
+            values[index][3]=roomType.getDeposit();
+            values[index][4]=roomType.getBednum();
+            values[index][5]=roomType.getRemark();
+            index++;
+        }
+        String[] column={"id","类型","价格","押金","床位数","备注"};
+        //放入model中
+        model=new CustomModel(values,column);
+        table1 = new JTable(model);
+        //设计样式
+        //设置表头背景色
+        table1.getTableHeader().setBackground(Color.BLUE);
+        //设置表头前景色
+        table1.getTableHeader().setForeground(Color.WHITE);
+        //设置表头高度
+        table1.getTableHeader().setPreferredSize(new Dimension(1,30));
+        //设置行高
+        table1.setRowHeight(25);
         label3 = new JLabel();
 
         //======== this ========
@@ -124,5 +155,6 @@ public class RoomTypeUi extends JFrame {
     private JScrollPane scrollPane1;
     private JTable table1;
     private JLabel label3;
+    private CustomModel model;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

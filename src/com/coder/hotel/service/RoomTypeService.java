@@ -19,7 +19,10 @@ public class RoomTypeService {
     public int save(RoomType type){
         return dao.save(type);
     }
-    public List<RoomType> selectList(){
+    /*public List<RoomType> selectList(){
         return dao.selectList();
+    }*/
+    public Object[][] selectList(){
+        return dao.listToArray(dao.selectList());
     }
 }

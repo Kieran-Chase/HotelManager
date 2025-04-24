@@ -4,8 +4,10 @@
 
 package com.coder.hotel.ui;
 
+import java.awt.event.*;
 import com.coder.hotel.entity.RoomType;
 import com.coder.hotel.service.RoomTypeService;
+import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.util.List;
@@ -24,14 +26,30 @@ public class RoomTypeUi extends JFrame {
         return UI;
     }
 
+    private void goBack(ActionEvent e) {
+        UiUtil.indent(UI,MainUi.getFrame());
+    }
+
     class CustomModel extends DefaultTableModel {
         public CustomModel(Object [][] data,Object[]column){
             super(data,column);
         }
     }
 
+    public void delete(ActionEvent e) {
+        //获取用户选择的表的行数
+        int rowCount=table1.getSelectedRowCount();
+        if(rowCount==0){
+            JOptionPane.showMessageDialog(table1,"请至少选择一行");
+        }else{
+            for (int i = 0; i < rowCount; i++) {
+                int selecteRow=table1.getSelectedRow();
+            }
+        }
+    }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
+        setResizable(false);
         label1 = new JLabel();
         button6 = new JButton();
         button7 = new JButton();
@@ -43,9 +61,9 @@ public class RoomTypeUi extends JFrame {
         scrollPane1 = new JScrollPane();
         //先从数据库中提取数据
         RoomTypeService service =new RoomTypeService();
-        List<RoomType> roomTypes = service.selectList();
+        Object[][]values = service.selectList();
         //将数据转成Object[][]
-        Object[][]values=new Object[roomTypes.size()][6];
+        /*Object[][]values=new Object[roomTypes.size()][6];
         int index=0;
         for (RoomType roomType : roomTypes) {
             values[index][0]=roomType.getId();
@@ -55,10 +73,11 @@ public class RoomTypeUi extends JFrame {
             values[index][4]=roomType.getBednum();
             values[index][5]=roomType.getRemark();
             index++;
-        }
+        }*/
         String[] column={"id","类型","价格","押金","床位数","备注"};
         //放入model中
         model=new CustomModel(values,column);
+
         table1 = new JTable(model);
         //设计样式
         //设置表头背景色
@@ -69,6 +88,8 @@ public class RoomTypeUi extends JFrame {
         table1.getTableHeader().setPreferredSize(new Dimension(1,30));
         //设置行高
         table1.setRowHeight(25);
+
+        button1 = new JButton();
         label3 = new JLabel();
 
         //======== this ========
@@ -97,6 +118,7 @@ public class RoomTypeUi extends JFrame {
         button7.setIcon(new ImageIcon(getClass().getResource("/img/\u5220 \u9664 .png")));
         contentPane.add(button7);
         button7.setBounds(115, 130, 85, 50);
+        button7.addActionListener(this::delete);
 
         //---- button8 ----
         button8.setText("\u4fee\u6539");
@@ -132,6 +154,20 @@ public class RoomTypeUi extends JFrame {
         contentPane.add(scrollPane1);
         scrollPane1.setBounds(25, 180, 750, 265);
 
+        //---- button1 ----
+        button1.setText("\u8fd4\u56de");
+        button1.addActionListener(e -> {
+			goBack(e);
+			goBack(e);
+			goBack(e);
+			goBack(e);
+			goBack(e);
+			goBack(e);
+			goBack(e);
+		});
+        contentPane.add(button1);
+        button1.setBounds(630, 450, 100, 45);
+
         //---- label3 ----
         label3.setIcon(new ImageIcon(getClass().getResource("/img/bg.jpg")));
         contentPane.add(label3);
@@ -142,6 +178,7 @@ public class RoomTypeUi extends JFrame {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
+
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     private JLabel label1;
@@ -154,7 +191,9 @@ public class RoomTypeUi extends JFrame {
     private JButton button9;
     private JScrollPane scrollPane1;
     private JTable table1;
-    private JLabel label3;
     private CustomModel model;
+    private JButton button1;
+    private JLabel label3;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+
 }

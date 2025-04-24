@@ -34,6 +34,7 @@ public class MainUi extends JFrame {
 
 
     private void initComponents() {
+        setResizable(false);
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         button1 = new JButton();
         button2 = new JButton();

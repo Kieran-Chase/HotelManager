@@ -5,6 +5,7 @@ import com.coder.hotel.util.DBUtil;
 import com.coder.hotel.util.IdType;
 import com.coder.hotel.util.TableId;
 
+import java.lang.invoke.VarHandle;
 import java.lang.reflect.*;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -239,5 +240,29 @@ public class BaseDao<T> {
             e.printStackTrace();
         }
         return list;
+    }
+    public Object[][] listToArray(List<T>list) {
+        Object[][] data =null;
+        try {
+            T entity = persistentClass.getDeclaredConstructor().newInstance();
+            Class<?> aClass = entity.getClass();
+            Field[] fields=aClass.getDeclaredFields();
+            data=new Object[list.size()][fields.length];
+            Object[] objects=list.toArray();
+            for (int i = 0; i < objects.length; i++) {
+                //每次从集合中取出一个对象objects[i];
+                for (int j = 0; j < fields.length; j++) {
+                    //每次从对象中取出一个属性
+                    String name=fields[j].getName();//id  type
+                    String first= name.substring(0,1).toUpperCase(Locale.ROOT);
+                    String suffix=name.substring(1);
+                    Method method=aClass.getDeclaredMethod("get"+first+suffix);
+                    data[i][j]=method.invoke(objects[i]);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }

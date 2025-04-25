@@ -42,10 +42,21 @@ public class RoomTypeUi extends JFrame {
         if(rowCount==0){
             JOptionPane.showMessageDialog(table1,"请至少选择一行");
         }else{
-            for (int i = 0; i < rowCount; i++) {
-                int selecteRow=table1.getSelectedRow();
+            int y=JOptionPane.showConfirmDialog(table1,"确定要删除数据吗？","提示信息",JOptionPane.YES_NO_OPTION);
+            if(y==0){
+                int [] selectedRows=table1.getSelectedRows();
+                    for (int selectedRow : selectedRows) {
+                    Object id=model.getValueAt(selectedRow,0);
+                    service.deleteId(id);
+                }
+                    for(int i=selectedRows.length-1;i>=0;i--){
+                    int x=table1.getSelectedRow();
+                    model.removeRow(x);
+                }
             }
+
         }
+        table1.updateUI();//刷新界面
     }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -60,8 +71,8 @@ public class RoomTypeUi extends JFrame {
         button9 = new JButton();
         scrollPane1 = new JScrollPane();
         //先从数据库中提取数据
-        RoomTypeService service =new RoomTypeService();
-        Object[][]values = service.selectList();
+        service =new RoomTypeService();
+        objects = service.selectList();
         //将数据转成Object[][]
         /*Object[][]values=new Object[roomTypes.size()][6];
         int index=0;
@@ -76,7 +87,7 @@ public class RoomTypeUi extends JFrame {
         }*/
         String[] column={"id","类型","价格","押金","床位数","备注"};
         //放入model中
-        model=new CustomModel(values,column);
+        model=new CustomModel(objects,column);
 
         table1 = new JTable(model);
         //设计样式
@@ -194,6 +205,8 @@ public class RoomTypeUi extends JFrame {
     private CustomModel model;
     private JButton button1;
     private JLabel label3;
+    private Object[][] objects;
+    private RoomTypeService service;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
 }

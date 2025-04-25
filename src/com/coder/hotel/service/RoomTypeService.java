@@ -19,6 +19,10 @@ public class RoomTypeService {
     public int save(RoomType type){
         return dao.save(type);
     }
+
+    public int deleteId(Object id){
+        return dao.delete(id);
+    }
     /*public List<RoomType> selectList(){
         return dao.selectList();
     }*/

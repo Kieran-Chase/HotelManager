@@ -36,20 +36,42 @@ public class RoomTypeUi extends JFrame {
         }
     }
 
+    //执行查询处理
+    public void query(ActionEvent e){
+        String text=textField1.getText();
+        if(text.equals("")){
+            //查询全部数据
+            objects = service.selectList();
+        }else{
+            //按给定的值查询
+            objects=service.selectByType(text);
+        }
+        //将查询的结果重新放回到model中
+        model.setDataVector(objects,column);
+        //表格更新
+        table1.updateUI();
+        textField1.setText("");
+    }
+
+    //执行删除处理
     public void delete(ActionEvent e) {
         //获取用户选择的表的行数
         int rowCount=table1.getSelectedRowCount();
+        //判断用户是否选择了表格中的数据
         if(rowCount==0){
             JOptionPane.showMessageDialog(table1,"请至少选择一行");
         }else{
             int y=JOptionPane.showConfirmDialog(table1,"确定要删除数据吗？","提示信息",JOptionPane.YES_NO_OPTION);
+            //y==0表示用户点击了确定
             if(y==0){
                 int [] selectedRows=table1.getSelectedRows();
-                    for (int selectedRow : selectedRows) {
+                //删除数据库表中的数据
+                for (int selectedRow : selectedRows) {
                     Object id=model.getValueAt(selectedRow,0);
                     service.deleteId(id);
                 }
-                    for(int i=selectedRows.length-1;i>=0;i--){
+                //清除表格中的数据
+                for(int i=selectedRows.length-1;i>=0;i--){
                     int x=table1.getSelectedRow();
                     model.removeRow(x);
                 }
@@ -85,7 +107,7 @@ public class RoomTypeUi extends JFrame {
             values[index][5]=roomType.getRemark();
             index++;
         }*/
-        String[] column={"id","类型","价格","押金","床位数","备注"};
+        column= new String []{"id","类型","价格","押金","床位数","备注"};
         //放入model中
         model=new CustomModel(objects,column);
 
@@ -154,6 +176,7 @@ public class RoomTypeUi extends JFrame {
             button9.setIcon(new ImageIcon(getClass().getResource("/img/\u67e5\u8be2.png")));
             panel1.add(button9);
             button9.setBounds(410, 10, 80, 40);
+            button9.addActionListener(this::query);
         }
         contentPane.add(panel1);
         panel1.setBounds(25, 75, 750, 55);
@@ -207,6 +230,7 @@ public class RoomTypeUi extends JFrame {
     private JLabel label3;
     private Object[][] objects;
     private RoomTypeService service;
+    private String[] column;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 
 }

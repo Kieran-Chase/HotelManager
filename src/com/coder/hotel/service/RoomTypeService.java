@@ -29,4 +29,8 @@ public class RoomTypeService {
     public Object[][] selectList(){
         return dao.listToArray(dao.selectList());
     }
+    public Object[][] selectByType(String type){
+        List<RoomType> list = dao.selectByType(type);
+        return dao.listToArray(list);
+    }
 }

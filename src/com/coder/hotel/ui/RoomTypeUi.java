@@ -34,6 +34,15 @@ public class RoomTypeUi extends JFrame {
         public CustomModel(Object [][] data,Object[]column){
             super(data,column);
         }
+        //禁止jtable可编辑
+        @Override
+        public boolean isCellEditable(int row,int column){
+            return false;
+        }
+    }
+    //跳转到增加界面
+    private void goAdd(ActionEvent e){
+        UiUtil.indent(UI,RoomTypeAddUi.getInstance());
     }
 
     //执行查询处理
@@ -145,6 +154,7 @@ public class RoomTypeUi extends JFrame {
         button6.setIcon(new ImageIcon(getClass().getResource("/img/\u65b0\u589e.png")));
         contentPane.add(button6);
         button6.setBounds(25, 130, 90, 50);
+        button6.addActionListener(this::goAdd);
 
         //---- button7 ----
         button7.setText("\u5220\u9664");

@@ -1,0 +1,169 @@
+JFDML JFormDesigner: "8.2.4.0.393" Java: "21.0.5" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+			"autoSize": false
+		} ) {
+			name: "this"
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/img/icon.png" )
+			"defaultCloseOperation": 3
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "酒店管理系统_房型管理"
+				"foreground": sfield java.awt.Color white
+				"font": new java.awt.Font( "Microsoft YaHei UI", 1, 28 )
+				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 750
+				"height": 50
+				"x": 20
+				"y": 35
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+				"autoSize": false
+			} ) {
+				name: "panel1"
+				"background": new java.awt.Color( 255, 255, 255, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "房型"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 20
+					"width": 60
+					"height": 25
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label3"
+					"text": "单价"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 60
+					"width": 60
+					"height": 25
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": "床位数"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 140
+					"width": 60
+					"height": 25
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label5"
+					"text": "押金"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 100
+					"width": 60
+					"height": 25
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label6"
+					"text": "备注"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 180
+					"width": 60
+					"height": 25
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "type"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 90
+					"y": 15
+					"width": 280
+					"height": 35
+				} )
+				add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+					name: "price"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 90
+					"y": 55
+					"width": 280
+					"height": 35
+				} )
+				add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+					name: "bednum"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 90
+					"y": 135
+					"width": 280
+					"height": 35
+				} )
+				add( new FormComponent( "javax.swing.JFormattedTextField" ) {
+					name: "deposit"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 90
+					"y": 95
+					"width": 280
+					"height": 35
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "remark"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 90
+					"y": 175
+					"width": 280
+					"height": 100
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "okBtn"
+					"text": "确定"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "save", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 90
+					"y": 280
+					"width": 78
+					"height": 34
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "resetBtn"
+					"text": "重置"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "reset", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 190
+					"y": 280
+					"height": 34
+					"width": 78
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "backBtn"
+					"text": "返回"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "goBack", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 292
+					"y": 280
+					"height": 34
+					"width": 78
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 180
+				"y": 115
+				"height": 335
+				"width": 450
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label7"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/bg.jpg" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 800
+				"height": 500
+				"x": 0
+				"y": 0
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 45, 25 )
+			"size": new java.awt.Dimension( 800, 530 )
+		} )
+	}
+}

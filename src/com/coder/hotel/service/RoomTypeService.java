@@ -16,21 +16,20 @@ public class RoomTypeService {
     static {
         dao=new RoomTypeDaoImpl();
     }
-    public int save(RoomType type){
-        return dao.save(type);
-    }
-
-    public int deleteId(Object id){
-        return dao.delete(id);
-    }
+    public int save(RoomType type){return dao.save(type);}
+    public Object[][] selectList(){return dao.listToArray(dao.selectList());}
+    public int deleteId(Object id){return dao.delete(id);}
     /*public List<RoomType> selectList(){
         return dao.selectList();
     }*/
-    public Object[][] selectList(){
-        return dao.listToArray(dao.selectList());
-    }
     public Object[][] selectByType(String type){
         List<RoomType> list = dao.selectByType(type);
         return dao.listToArray(list);
+    }
+    public RoomType selectId(Object id){
+        return dao.selectId(id);
+    }
+    public int update(RoomType type){
+        return dao.update(type);
     }
 }

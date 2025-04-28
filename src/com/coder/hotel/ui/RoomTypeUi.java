@@ -40,9 +40,30 @@ public class RoomTypeUi extends JFrame {
             return false;
         }
     }
+    //修改操作
+    public void update (ActionEvent e){
+        //获取用户选择的表的行数
+        int rowCount=table1.getSelectedRowCount();
+        if(rowCount==0){
+            JOptionPane.showMessageDialog(table1,"请至少选择一行","提示信息",JOptionPane.WARNING_MESSAGE);
+        }else if(rowCount>1){
+            JOptionPane.showMessageDialog(table1,"只能修改一行数据","提示信息",JOptionPane.WARNING_MESSAGE);
+        }else{
+            int row=table1.getSelectedRow();
+            Object id = table1.getValueAt(row, 0);
+            RoomTypeService service =new RoomTypeService();
+            RoomType roomtype =service.selectId(id);
+            RoomTypeUpdateUi typeUpdateUi = RoomTypeUpdateUi.getInstance();
+            typeUpdateUi.setRoomType(roomtype);
+            typeUpdateUi.setTable(table1);
+            UiUtil.indent(UI,typeUpdateUi);
+        }
+    }
     //跳转到增加界面
     private void goAdd(ActionEvent e){
-        UiUtil.indent(UI,RoomTypeAddUi.getInstance());
+        RoomTypeAddUi typeAddUi = RoomTypeAddUi.getInstance();
+        typeAddUi.setTable(table1);
+        UiUtil.indent(UI,typeAddUi);
     }
 
     //执行查询处理
@@ -168,6 +189,7 @@ public class RoomTypeUi extends JFrame {
         button8.setIcon(new ImageIcon(getClass().getResource("/img/\u4fee\u6539.png")));
         contentPane.add(button8);
         button8.setBounds(200, 130, 85, 50);
+        button8.addActionListener(this::update);
 
         //======== panel1 ========
         {

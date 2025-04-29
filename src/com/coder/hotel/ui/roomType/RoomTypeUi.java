@@ -2,15 +2,15 @@
  * Created by JFormDesigner on Mon Apr 21 14:54:01 CST 2025
  */
 
-package com.coder.hotel.ui;
+package com.coder.hotel.ui.roomType;
 
 import java.awt.event.*;
 import com.coder.hotel.entity.RoomType;
 import com.coder.hotel.service.RoomTypeService;
+import com.coder.hotel.ui.MainUi;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,7 +27,7 @@ public class RoomTypeUi extends JFrame {
     }
 
     private void goBack(ActionEvent e) {
-        UiUtil.indent(UI,MainUi.getFrame());
+        UiUtil.indent(UI, MainUi.getFrame());
     }
 
     class CustomModel extends DefaultTableModel {
@@ -172,21 +172,21 @@ public class RoomTypeUi extends JFrame {
 
         //---- button6 ----
         button6.setText("\u65b0\u589e");
-        button6.setIcon(new ImageIcon(getClass().getResource("/img/\u65b0\u589e.png")));
+        button6.setIcon(new ImageIcon(getClass().getResource("/img/新增.png")));
         contentPane.add(button6);
         button6.setBounds(25, 130, 90, 50);
         button6.addActionListener(this::goAdd);
 
         //---- button7 ----
         button7.setText("\u5220\u9664");
-        button7.setIcon(new ImageIcon(getClass().getResource("/img/\u5220 \u9664 .png")));
+        button7.setIcon(new ImageIcon(getClass().getResource("/img/删 除 .png")));
         contentPane.add(button7);
         button7.setBounds(115, 130, 85, 50);
         button7.addActionListener(this::delete);
 
         //---- button8 ----
         button8.setText("\u4fee\u6539");
-        button8.setIcon(new ImageIcon(getClass().getResource("/img/\u4fee\u6539.png")));
+        button8.setIcon(new ImageIcon(getClass().getResource("/img/修改.png")));
         contentPane.add(button8);
         button8.setBounds(200, 130, 85, 50);
         button8.addActionListener(this::update);
@@ -205,7 +205,7 @@ public class RoomTypeUi extends JFrame {
 
             //---- button9 ----
             button9.setText("\u67e5\u8be2");
-            button9.setIcon(new ImageIcon(getClass().getResource("/img/\u67e5\u8be2.png")));
+            button9.setIcon(new ImageIcon(getClass().getResource("/img/查询.png")));
             panel1.add(button9);
             button9.setBounds(410, 10, 80, 40);
             button9.addActionListener(this::query);

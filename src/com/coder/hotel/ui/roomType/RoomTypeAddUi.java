@@ -1,31 +1,36 @@
 /*
- * Created by JFormDesigner on Mon Apr 28 14:16:53 CST 2025
+ * Created by JFormDesigner on Sun Apr 27 22:14:53 CST 2025
  */
 
-package com.coder.hotel.ui;
+package com.coder.hotel.ui.roomType;
 
 import com.coder.hotel.entity.RoomType;
 import com.coder.hotel.service.RoomTypeService;
 import com.coder.hotel.util.UiUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.NumberFormat;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
  */
-public class RoomTypeUpdateUi extends JFrame {
-    private RoomTypeUpdateUi() {
+public class RoomTypeAddUi extends JFrame {
+    private static final Logger log = LoggerFactory.getLogger(RoomTypeAddUi.class);
+
+    private RoomTypeAddUi() {
         initComponents();
     }
-    private static final RoomTypeUpdateUi UI=new RoomTypeUpdateUi();
-    public static RoomTypeUpdateUi getInstance(){
+    private static final RoomTypeAddUi UI=new RoomTypeAddUi();
+    public static RoomTypeAddUi getInstance(){
         return UI;
     }
 
-    private void update(ActionEvent e) {
+    private void save(ActionEvent e) {
         // TODO add your code here
         String typeValue=type.getText();
         if(typeValue.equals("")){
@@ -48,13 +53,14 @@ public class RoomTypeUpdateUi extends JFrame {
             return;
         }
         String remarkValue=remark.getText();
+        RoomType roomType=new RoomType();
         roomType.setType(typeValue);
         roomType.setPrice(Integer.parseInt(priceValue));
         roomType.setDeposit(Integer.parseInt(depositValue));
         roomType.setBednum(Integer.parseInt(bednumValue));
         roomType.setRemark(remarkValue);
         RoomTypeService service =new RoomTypeService();
-        int i=service.update(roomType);
+        int i=service.save(roomType);
         if(i>0){
             //将RoomTypeUi传过来的JTable进行刷新
             DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -62,25 +68,22 @@ public class RoomTypeUpdateUi extends JFrame {
             Object[][] objects=service.selectList();
             model.setDataVector(objects,new String []{"id","类型","价格","押金","床位数","备注"});
             table.updateUI();
-            JOptionPane.showMessageDialog(this,"更新成功","提示信息",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,"保存成功","提示信息",JOptionPane.INFORMATION_MESSAGE);
             goBack(e);
         }
+
     }
 
     private void reset(ActionEvent e) {
-        // TODO add your code here
-        init();
-    }
-    private void init(){
-        type.setText(roomType.getType());
-        price.setText(roomType.getPrice().toString());
-        deposit.setText(roomType.getDeposit().toString());
-        bednum.setText(roomType.getBednum().toString());
-        remark.setText(roomType.getRemark());
+        type.setText("");
+        price.setText("");
+        deposit.setText("");
+        bednum.setText("");
+        remark.setText("");
     }
 
     private void goBack(ActionEvent e) {
-        // TODO add your code here
+        reset(e);
         UiUtil.indent(UI,RoomTypeUi.getInstance());
     }
 
@@ -95,9 +98,9 @@ public class RoomTypeUpdateUi extends JFrame {
         label5 = new JLabel();
         label6 = new JLabel();
         type = new JTextField();
-        price = new JFormattedTextField();
-        bednum = new JFormattedTextField();
-        deposit = new JFormattedTextField();
+        price = new JFormattedTextField(NumberFormat.getInstance());
+        bednum = new JFormattedTextField(NumberFormat.getInstance());
+        deposit = new JFormattedTextField(NumberFormat.getInstance());
         okBtn = new JButton();
         resetBtn = new JButton();
         backBtn = new JButton();
@@ -109,12 +112,9 @@ public class RoomTypeUpdateUi extends JFrame {
         label11 = new JLabel();
         label7 = new JLabel();
 
-
         //======== this ========
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
-        setTitle("\u9152\u5e97\u7ba1\u7406_\u623f\u578b\u7ba1\u7406_\u66f4\u65b0");
-        setFocusTraversalPolicyProvider(true);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         var contentPane = getContentPane();
         contentPane.setLayout(null);
 
@@ -173,7 +173,7 @@ public class RoomTypeUpdateUi extends JFrame {
 
             //---- okBtn ----
             okBtn.setText("\u786e\u5b9a");
-            okBtn.addActionListener(e -> update(e));
+            okBtn.addActionListener(e -> save(e));
             panel1.add(okBtn);
             okBtn.setBounds(90, 280, 78, 34);
 
@@ -260,23 +260,12 @@ public class RoomTypeUpdateUi extends JFrame {
     private JLabel label10;
     private JLabel label11;
     private JLabel label7;
-    private JTable table;
     public JTable getTable() {
         return table;
     }
     public void setTable(JTable table) {
         this.table = table;
     }
-
-    private RoomType roomType;
-    public RoomType getRoomType() {
-        return roomType;
-    }
-    public void setRoomType(RoomType roomType) {
-        this.roomType = roomType;
-        init();
-    }
-
-
+    private JTable table;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

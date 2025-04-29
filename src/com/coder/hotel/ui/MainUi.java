@@ -4,11 +4,12 @@
 
 package com.coder.hotel.ui;
 
+import com.coder.hotel.ui.roomInfo.RoomInfoUi;
+import com.coder.hotel.ui.roomType.RoomTypeUi;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.*;
 import javax.swing.*;
 
 /**
@@ -29,7 +30,11 @@ public class MainUi extends JFrame {
     }
 
     private void linkRoomTypeUi(ActionEvent e) {
-        UiUtil.indent(UI,RoomTypeUi.getInstance());
+        UiUtil.indent(UI, RoomTypeUi.getInstance());
+    }
+
+    private void goRoomInfo(ActionEvent e){
+        UiUtil.indent(UI, RoomInfoUi.getInstance());
     }
 
 
@@ -72,6 +77,7 @@ public class MainUi extends JFrame {
         button2.setIcon(new ImageIcon(getClass().getResource("/img/\u623f\u95f4\u7ba1\u7406.png")));
         contentPane.add(button2);
         button2.setBounds(170, 230, 115, 115);
+        button2.addActionListener(this::goRoomInfo);
 
         //---- button3 ----
         button3.setText("\u7528\u6237\u7ba1\u7406");

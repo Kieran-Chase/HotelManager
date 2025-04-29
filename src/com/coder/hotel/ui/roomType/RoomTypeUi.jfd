@@ -120,10 +120,9 @@ new FormModel {
 				name: "label3"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/bg.jpg" )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 0
-				"y": 0
-				"width": 800
 				"height": 500
+				"x": 0
+				"y": -5
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 15, 5 )

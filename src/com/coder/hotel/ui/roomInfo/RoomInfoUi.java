@@ -10,6 +10,7 @@ import com.coder.hotel.util.UiUtil;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
@@ -21,6 +22,17 @@ public class RoomInfoUi extends JFrame {
     private static final RoomInfoUi UI=new RoomInfoUi();
     public static RoomInfoUi getInstance(){
         return UI;
+    }
+
+    class CustomModel extends DefaultTableModel {
+        public CustomModel(Object [][] data,Object[]column){
+            super(data,column);
+        }
+        //禁止jtable可编辑
+        @Override
+        public boolean isCellEditable(int row,int column){
+            return false;
+        }
     }
 
     private void goBack(ActionEvent e) {
@@ -46,6 +58,9 @@ public class RoomInfoUi extends JFrame {
         updateBtn = new JButton();
         backBtn = new JButton();
         scrollPane1 = new JScrollPane();
+        //初始化jtable数据
+        column =new String[]{"id","楼层","房间类型","房间号","单价","押金","电话","状态","备注"};
+
         table1 = new JTable();
         button1 = new JButton();
         button2 = new JButton();
@@ -254,5 +269,7 @@ public class RoomInfoUi extends JFrame {
     private JLabel label12;
     private JLabel pages;
     private JLabel label6;
+    private String[] column;
+    private Object[][]data;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

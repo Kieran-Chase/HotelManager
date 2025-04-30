@@ -16,7 +16,7 @@ public class RoomInfo {
     private Integer price;
     private Integer deposit;
     private String tel;
-    private String states;
+    private String status;
     private String remark;
 
     private Integer id;
@@ -78,11 +78,11 @@ public class RoomInfo {
     }
 
     public String getStates() {
-        return states;
+        return status;
     }
 
     public void setStates(String states) {
-        this.states = states;
+        this.status = states;
     }
 
     public String getRemark() {

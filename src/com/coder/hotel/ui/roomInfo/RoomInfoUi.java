@@ -41,20 +41,105 @@ public class RoomInfoUi extends JFrame {
 
     //处理分页按钮事件
     private void first(ActionEvent e){
-
+        Page pageInfo=service.getPage(1);
+        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+        data=service.selectList(1);
+        model.setDataVector(data,column);
+        //设置一下当前页
+        page.setText(pageInfo.getPage().toString());
+        table1.updateUI();
     }
-    private void previous(ActionEvent e){
+    private void previous(ActionEvent e) {
+        Page pageInfo = service.getPage(1); // 获取分页信息（总页数等）
+        String c = page.getText(); // 当前页码文本
+        Long currentPage = Long.parseLong(c); // 当前页码数字
 
+        if (currentPage > 1) {
+            pageInfo.setPage(currentPage - 1); // 设置上一页页码
+
+            column = new String[]{"id", "楼层", "房型id", "房间类型", "房间号", "单价", "押金", "电话", "状态", "备注"};
+            long p = pageInfo.getPage();
+            data = service.selectList((int) p); // 查询上一页数据
+
+            model.setDataVector(data, column); // 更新表格
+            page.setText(pageInfo.getPage().toString()); // 更新当前页文本
+            table1.updateUI();
+        }
     }
+    /*private void previous(ActionEvent e){
+        Page pageInfo=service.getPage(1);
+        String c=page.getText();//获取当前页码
+        if(!equals("1")){
+            pageInfo.setPage(Long.parseLong(c)-1);
+            column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+            long p=pageInfo.getPage();
+            data=service.selectList((int)p);
+            model.setDataVector(data,column);
+            //设置一下当前页
+            page.setText(pageInfo.getPage().toString());
+            table1.updateUI();
+        }
+    }*/
     private void next(ActionEvent e){
-
+        Page pageInfo=service.getPage(1);
+        //获取最后一页
+        Long lastPage=pageInfo.getPages();
+        //获取当前页码
+        String c=page.getText();
+        Long currentPage=Long.parseLong(page.getText());
+        if(currentPage<lastPage){
+            pageInfo.setPage(currentPage+1);
+            column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+            long p=pageInfo.getPage();
+            data=service.selectList((int)p);
+            model.setDataVector(data,column);
+            //设置一下当前页
+            page.setText(pageInfo.getPage().toString());
+            table1.updateUI();
+        }
     }
     private void last(ActionEvent e){
-
+        Page pageInfo=service.getPage(1);
+        pageInfo.setPage(pageInfo.getPages());//设置当前页是最后一页
+        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+        long p=pageInfo.getPage();
+        data=service.selectList((int)p);
+        model.setDataVector(data,column);
+        //设置一下当前页
+        page.setText(pageInfo.getPage().toString());
+        table1.updateUI();
     }
 
+    public void delete(ActionEvent e) {
+        //获取用户选择的表的行数
+        int rowCount=table1.getSelectedRowCount();
+        //判断用户是否选择了表格中的数据
+        if(rowCount==0){
+            JOptionPane.showMessageDialog(table1,"请至少选择一行");
+        }else{
+            int y=JOptionPane.showConfirmDialog(table1,"确定要删除数据吗？","提示信息",JOptionPane.YES_NO_OPTION);
+            //y==0表示用户点击了确定
+            if(y==0){
+                int [] selectedRows=table1.getSelectedRows();
+                //删除数据库表中的数据
+                for (int selectedRow : selectedRows) {
+                    Object id=model.getValueAt(selectedRow,0);
+                    service.deleteId(id);
+                }
+                //清除表格中的数据
+                for(int i=selectedRows.length-1;i>=0;i--){
+                    int x=table1.getSelectedRow();
+                    model.removeRow(x);
+                }
+            }
+
+        }
+        //table1.updateUI();//刷新界面
+        first(e);
+    }
     private void goBack(ActionEvent e) {
         // TODO add your code here
+        first(e);
         UiUtil.indent(UI, MainUi.getFrame());
 
     }
@@ -105,6 +190,7 @@ public class RoomInfoUi extends JFrame {
         //获取页码相关信息
         Page pageInfo=service.getPage(1);
         total.setText(pageInfo.getTotal().toString());
+        //当前页
         page.setText(pageInfo.getPage().toString());
         pages.setText(pageInfo.getPages().toString());
 
@@ -172,6 +258,7 @@ public class RoomInfoUi extends JFrame {
         //---- deleteBtn ----
         deleteBtn.setText("\u5220\u9664");
         deleteBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u5220 \u9664 .png")));
+        deleteBtn.addActionListener(e ->delete(e));
         contentPane.add(deleteBtn);
         deleteBtn.setBounds(115, 135, 85, 50);
 

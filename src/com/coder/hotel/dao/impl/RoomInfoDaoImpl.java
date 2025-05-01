@@ -24,7 +24,7 @@ public class RoomInfoDaoImpl extends BaseDao<RoomInfo> implements RoomInfoDao {
     @Override
     public List<RoomInfo> selectPage(int page) {
         int s=(page-1)*5;
-        String sql="select r.id,r.tid,r.level,r.roomnum,r.price,r.deposit,r.tel,r.status,r.remark,t.type from roominfo r join roomtype t on tid=t.id limit ?,?";
+        String sql="select r.id,r.tid,r.level,r.roomnum,r.price,r.deposit,r.tel,r.status,r.remark,t.type from roominfo r join roomtype t on tid=t.id ORDER BY r.id limit ?,?";
         QueryRunner runner =new QueryRunner(DBUtil.getDataSource());
         try {
             //List<RoomInfo> query = runner.query(sql, new BeanListHandler<RoomInfo>(RoomInfo.class));

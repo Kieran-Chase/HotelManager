@@ -27,4 +27,8 @@ public class RoomInfoService {
         long pages=total%size==0?total/size:total/size+1;
         return new Page(pages,page,size,total);
     }
+
+    public int deleteId(Object id) {
+        return dao.delete(id);
+    }
 }

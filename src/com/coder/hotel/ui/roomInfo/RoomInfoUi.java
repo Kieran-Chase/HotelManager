@@ -4,7 +4,11 @@
 
 package com.coder.hotel.ui.roomInfo;
 
+import com.coder.hotel.entity.RoomInfo;
+import com.coder.hotel.service.RoomInfoService;
 import com.coder.hotel.ui.MainUi;
+import com.coder.hotel.util.Page;
+import com.coder.hotel.util.TableStyle;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
@@ -35,6 +39,20 @@ public class RoomInfoUi extends JFrame {
         }
     }
 
+    //处理分页按钮事件
+    private void first(ActionEvent e){
+
+    }
+    private void previous(ActionEvent e){
+
+    }
+    private void next(ActionEvent e){
+
+    }
+    private void last(ActionEvent e){
+
+    }
+
     private void goBack(ActionEvent e) {
         // TODO add your code here
         UiUtil.indent(UI, MainUi.getFrame());
@@ -59,9 +77,19 @@ public class RoomInfoUi extends JFrame {
         backBtn = new JButton();
         scrollPane1 = new JScrollPane();
         //初始化jtable数据
-        column =new String[]{"id","楼层","房间类型","房间号","单价","押金","电话","状态","备注"};
+        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+        service=new RoomInfoService();
+        data=service.selectList(1);
+        model=new CustomModel(data,column);
+        table1 = new JTable(model);
+        TableStyle.setStyle(table1);
+        //删除表格列
+        //table1.removeColumn(table1.getColumnModel().getColumn(2));
+        //隐藏表格列
+        table1.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
+        table1.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
+        table1.getTableHeader().getColumnModel().getColumn(2).setPreferredWidth(0);
 
-        table1 = new JTable();
         button1 = new JButton();
         button2 = new JButton();
         button3 = new JButton();
@@ -73,6 +101,12 @@ public class RoomInfoUi extends JFrame {
         label12 = new JLabel();
         pages = new JLabel();
         label6 = new JLabel();
+
+        //获取页码相关信息
+        Page pageInfo=service.getPage(1);
+        total.setText(pageInfo.getTotal().toString());
+        page.setText(pageInfo.getPage().toString());
+        pages.setText(pageInfo.getPages().toString());
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -188,6 +222,12 @@ public class RoomInfoUi extends JFrame {
         contentPane.add(button4);
         button4.setBounds(600, 440, 90, 40);
 
+        //调用分页处理按钮
+        button1.addActionListener(this::first);
+        button2.addActionListener(this::previous);
+        button3.addActionListener(this::next );
+        button4.addActionListener(this::last);
+
         //---- label8 ----
         label8.setText("\u603b\u8bb0\u5f55\uff1a");
         label8.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
@@ -196,7 +236,7 @@ public class RoomInfoUi extends JFrame {
         label8.setBounds(new Rectangle(new Point(35, 450), label8.getPreferredSize()));
 
         //---- total ----
-        total.setText("100");
+        //total.setText("100");
         total.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         total.setForeground(Color.white);
         contentPane.add(total);
@@ -210,7 +250,7 @@ public class RoomInfoUi extends JFrame {
         label10.setBounds(new Rectangle(new Point(120, 450), label10.getPreferredSize()));
 
         //---- page ----
-        page.setText("1");
+        //page.setText("1");
         page.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         page.setForeground(Color.white);
         contentPane.add(page);
@@ -224,7 +264,7 @@ public class RoomInfoUi extends JFrame {
         label12.setBounds(new Rectangle(new Point(195, 450), label12.getPreferredSize()));
 
         //---- pages ----
-        pages.setText("20");
+        //pages.setText("20");
         pages.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         pages.setForeground(Color.white);
         contentPane.add(pages);
@@ -271,5 +311,7 @@ public class RoomInfoUi extends JFrame {
     private JLabel label6;
     private String[] column;
     private Object[][]data;
+    private RoomInfoService service;
+    private CustomModel model;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

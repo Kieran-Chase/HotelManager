@@ -10,8 +10,10 @@ import com.coder.hotel.util.TableId;
 public class RoomInfo {
     @TableId
 
+    private Integer id;
     private Integer level;
     private Integer tid;
+    private String type;
     private String roomnum;
     private Integer price;
     private Integer deposit;
@@ -19,7 +21,6 @@ public class RoomInfo {
     private String status;
     private String remark;
 
-    private Integer id;
 
     public Integer getId() {
         return id;
@@ -77,14 +78,6 @@ public class RoomInfo {
         this.tel = tel;
     }
 
-    public String getStates() {
-        return status;
-    }
-
-    public void setStates(String states) {
-        this.status = states;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -93,4 +86,19 @@ public class RoomInfo {
         this.remark = remark;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

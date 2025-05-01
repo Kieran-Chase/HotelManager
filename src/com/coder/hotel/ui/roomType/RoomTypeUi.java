@@ -8,6 +8,7 @@ import java.awt.event.*;
 import com.coder.hotel.entity.RoomType;
 import com.coder.hotel.service.RoomTypeService;
 import com.coder.hotel.ui.MainUi;
+import com.coder.hotel.util.TableStyle;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
@@ -142,16 +143,7 @@ public class RoomTypeUi extends JFrame {
         model=new CustomModel(objects,column);
 
         table1 = new JTable(model);
-        //设计样式
-        //设置表头背景色
-        table1.getTableHeader().setBackground(Color.BLUE);
-        //设置表头前景色
-        table1.getTableHeader().setForeground(Color.WHITE);
-        //设置表头高度
-        table1.getTableHeader().setPreferredSize(new Dimension(1,30));
-        //设置行高
-        table1.setRowHeight(25);
-
+        TableStyle.setStyle(table1);
         button1 = new JButton();
         label3 = new JLabel();
 

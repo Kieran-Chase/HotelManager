@@ -135,7 +135,15 @@ public class RoomInfoUi extends JFrame {
 
         }
         //table1.updateUI();//刷新界面
+        Page pageInfo=service.getPage(1);
+        total.setText(pageInfo.getTotal().toString());
         first(e);
+    }
+
+    public void add(ActionEvent e) {
+        //页面跳转
+        UiUtil.indent(UI,RoomInfoAddUi.getInstance());
+
     }
     private void goBack(ActionEvent e) {
         // TODO add your code here
@@ -254,13 +262,14 @@ public class RoomInfoUi extends JFrame {
         addBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u65b0\u589e.png")));
         contentPane.add(addBtn);
         addBtn.setBounds(25, 135, 90, 50);
+        addBtn.addActionListener(this::add);
 
         //---- deleteBtn ----
         deleteBtn.setText("\u5220\u9664");
         deleteBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u5220 \u9664 .png")));
-        deleteBtn.addActionListener(e ->delete(e));
         contentPane.add(deleteBtn);
         deleteBtn.setBounds(115, 135, 85, 50);
+        deleteBtn.addActionListener(this::delete);
 
         //---- updateBtn ----
         updateBtn.setText("\u4fee\u6539");

@@ -16,6 +16,14 @@ public class RoomTypeService {
     static {
         dao=new RoomTypeDaoImpl();
     }
+    public Object[] getTypes(){
+        List<RoomType> roomTypes = dao.selectList();
+        Object[] types=new Object[roomTypes.size()];
+        for (int i = 0; i < roomTypes.size(); i++) {
+            types[i]=roomTypes.get(i).getType();
+        }
+        return types;
+    }
     public int save(RoomType type){return dao.save(type);}
     public Object[][] selectList(){return dao.listToArray(dao.selectList());}
     public int deleteId(Object id){return dao.delete(id);}

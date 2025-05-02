@@ -99,6 +99,8 @@ public class RoomTypeUi extends JFrame {
                 //删除数据库表中的数据
                 for (int selectedRow : selectedRows) {
                     Object id=model.getValueAt(selectedRow,0);
+                    //按id查询房间，如果没有查到，就说明这个房型下面没有房间，可以直接删除
+                    //否则不能删除，可以给用户一个提示
                     service.deleteId(id);
                 }
                 //清除表格中的数据

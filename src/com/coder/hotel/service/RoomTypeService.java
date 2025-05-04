@@ -18,9 +18,10 @@ public class RoomTypeService {
     }
     public Object[] getTypes(){
         List<RoomType> roomTypes = dao.selectList();
-        Object[] types=new Object[roomTypes.size()];
+        Object[] types=new Object[roomTypes.size()+1];
+        types[0]="---请选择---";
         for (int i = 0; i < roomTypes.size(); i++) {
-            types[i]=roomTypes.get(i).getType();
+            types[i+1]=roomTypes.get(i).getType();
         }
         return types;
     }
@@ -39,5 +40,9 @@ public class RoomTypeService {
     }
     public int update(RoomType type){
         return dao.update(type);
+    }
+
+    public RoomType selectType(String type) {
+        return dao.selectType(type);
     }
 }

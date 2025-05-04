@@ -39,6 +39,11 @@ public class RoomInfoUi extends JFrame {
         }
     }
 
+    //下面四个方法可封装()
+    //下面四个方法可封装()
+    //下面四个方法可封装()
+
+
     //处理分页按钮事件
     private void first(ActionEvent e){
         Page pageInfo=service.getPage(1);
@@ -48,6 +53,7 @@ public class RoomInfoUi extends JFrame {
         //设置一下当前页
         page.setText(pageInfo.getPage().toString());
         table1.updateUI();
+        doHide();
     }
     private void previous(ActionEvent e) {
         Page pageInfo = service.getPage(1); // 获取分页信息（总页数等）
@@ -65,6 +71,7 @@ public class RoomInfoUi extends JFrame {
             page.setText(pageInfo.getPage().toString()); // 更新当前页文本
             table1.updateUI();
         }
+        doHide();
     }
     /*private void previous(ActionEvent e){
         Page pageInfo=service.getPage(1);
@@ -97,6 +104,7 @@ public class RoomInfoUi extends JFrame {
             page.setText(pageInfo.getPage().toString());
             table1.updateUI();
         }
+        doHide();
     }
     private void last(ActionEvent e){
         Page pageInfo=service.getPage(1);
@@ -108,7 +116,16 @@ public class RoomInfoUi extends JFrame {
         //设置一下当前页
         page.setText(pageInfo.getPage().toString());
         table1.updateUI();
+        doHide();
     }
+    private void doHide(){
+        table1.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
+        table1.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
+        table1.getTableHeader().getColumnModel().getColumn(2).setPreferredWidth(0);
+    }
+
+
+
 
     public void delete(ActionEvent e) {
         //获取用户选择的表的行数
@@ -140,9 +157,13 @@ public class RoomInfoUi extends JFrame {
         first(e);
     }
 
-    public void add(ActionEvent e) {
+    public void add(ActionEvent actionEvent) {
         //页面跳转
-        UiUtil.indent(UI,RoomInfoAddUi.getInstance());
+        RoomInfoAddUi infoAddUi = RoomInfoAddUi.getInstance();
+        infoAddUi.setTable(table1);
+        infoAddUi.setTotal(total);
+        infoAddUi.setPages(page);
+        UiUtil.indent(UI,infoAddUi);
 
     }
     private void goBack(ActionEvent e) {

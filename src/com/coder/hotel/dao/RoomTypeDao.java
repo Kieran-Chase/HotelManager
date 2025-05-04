@@ -18,4 +18,6 @@ public interface RoomTypeDao {
     List<RoomType> selectList();
     List<RoomType> selectByType(String type);
     Object[][] listToArray(List<RoomType>list);
+
+    RoomType selectType(String type);
 }

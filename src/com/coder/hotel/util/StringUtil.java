@@ -16,4 +16,17 @@ public class StringUtil {
         String s = decimalFormat.format(i);
         return s;
     }
+
+    public static boolean isEmpty(String str){
+        if(str==null)
+            return true;
+        if(str.equals(""))
+            return true;
+        if(str.trim().equals(""))
+            return true;
+        return false;
+    }
+    public static boolean isNotEmpty(String str){
+        return !isEmpty(str);
+    }
 }

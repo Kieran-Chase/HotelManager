@@ -1,5 +1,6 @@
 package com.coder.hotel.entity;
 
+import com.coder.hotel.util.TableField;
 import com.coder.hotel.util.TableId;
 
 /**
@@ -13,6 +14,7 @@ public class RoomInfo {
     private Integer id;
     private Integer level;
     private Integer tid;
+    @TableField
     private String type;
     private String roomnum;
     private Integer price;

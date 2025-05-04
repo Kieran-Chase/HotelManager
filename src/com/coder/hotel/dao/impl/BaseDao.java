@@ -1,9 +1,6 @@
 package com.coder.hotel.dao.impl;
 
-import com.coder.hotel.util.DBObject;
-import com.coder.hotel.util.DBUtil;
-import com.coder.hotel.util.IdType;
-import com.coder.hotel.util.TableId;
+import com.coder.hotel.util.*;
 
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.*;
@@ -30,7 +27,7 @@ public class BaseDao<T> {
         Class<?> aClass = entity.getClass();
         //循环遍历所有的字段
         Field[] declaredFields = aClass.getDeclaredFields();
-        Object[] values = new Object[declaredFields.length];
+
         //获取当前实体类对象的主键生成方式
         IdType idType = null;
         for (Field field : declaredFields) {
@@ -40,23 +37,38 @@ public class BaseDao<T> {
                 break;
             }
         }
+        //哪些字段是有TableField(exist=false) 判断在数据库中是否存在
+        List<Field> notExists=new ArrayList<>();//要存储并不存在的字段
+        for(Field field:declaredFields){
+            TableField tableField=field.getAnnotation(TableField.class);
+            if(tableField!=null){
+                boolean exists=tableField.exists();
+                if(!exists){
+                    notExists.add(field);
+                }
+            }
+        }
+        Object[] values = new Object[declaredFields.length-notExists.size()];
+
         //拼接sql
         //insert into 表名 (字段列表) values(?,?,?);
         StringBuilder sql = new StringBuilder("insert into ");
         sql.append(aClass.getSimpleName().toLowerCase(Locale.ROOT)).append("(");
         int index = 0;
         for (Field field : declaredFields) {
-            sql.append(field.getName()).append(",");
-            field.setAccessible(true);
-            try {
-                values[index++] = field.get(entity);//将所有字段的值都存在一个Object数组中
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            if(!notExists.contains(field)) {
+                sql.append(field.getName()).append(",");
+                field.setAccessible(true);
+                try {
+                    values[index++] = field.get(entity);//将所有字段的值都存在一个Object数组中
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
         sql.setCharAt(sql.length() - 1, ')');
         sql.append(" values (");
-        for (int i = 0; i < declaredFields.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             sql.append("?,");
         }
 

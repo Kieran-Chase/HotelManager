@@ -32,6 +32,10 @@ public class MainUi extends JFrame {
         pwd.setText("");
     }
 
+    private void nameFocusLost(FocusEvent e) {
+        // TODO add your code here
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         menuBar1 = new JMenuBar();
@@ -80,6 +84,15 @@ public class MainUi extends JFrame {
         label1.setToolTipText("\u63d0\u793a");
         contentPane.add(label1);
         label1.setBounds(290, 35, 190, 45);
+
+        //---- name ----
+        name.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                nameFocusLost(e);
+                nameFocusLost(e);
+            }
+        });
         contentPane.add(name);
         name.setBounds(280, 105, 255, 35);
 

@@ -17,6 +17,9 @@ public class RoomInfoService {
     static {
         dao=new RoomInfoDaoImpl();
     }
+    public int save (RoomInfo info){
+        return dao.save(info);
+    }
     public Object[][]selectList(int page){
         List<RoomInfo> roomInfos = dao.selectPage(page);
         return dao.listToArray(roomInfos);

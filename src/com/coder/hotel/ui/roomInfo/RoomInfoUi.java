@@ -166,6 +166,10 @@ public class RoomInfoUi extends JFrame {
         UiUtil.indent(UI,infoAddUi);
 
     }
+    private void update(ActionEvent e){
+        UiUtil.indent(UI,RoomInfoUpdateUi.getInstance());
+    }
+
     private void goBack(ActionEvent e) {
         // TODO add your code here
         first(e);
@@ -297,6 +301,7 @@ public class RoomInfoUi extends JFrame {
         updateBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u4fee\u6539.png")));
         contentPane.add(updateBtn);
         updateBtn.setBounds(200, 135, 85, 50);
+        updateBtn.addActionListener(this::update);
 
         //---- backBtn ----
         backBtn.setText("\u8fd4\u56de");

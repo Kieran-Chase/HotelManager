@@ -5,8 +5,11 @@
 package com.coder.hotel.ui.roomInfo;
 
 import com.coder.hotel.entity.RoomInfo;
+import com.coder.hotel.entity.RoomType;
 import com.coder.hotel.service.RoomInfoService;
+import com.coder.hotel.service.RoomTypeService;
 import com.coder.hotel.ui.MainUi;
+import com.coder.hotel.ui.roomType.RoomTypeUpdateUi;
 import com.coder.hotel.util.Page;
 import com.coder.hotel.util.TableStyle;
 import com.coder.hotel.util.UiUtil;
@@ -167,6 +170,23 @@ public class RoomInfoUi extends JFrame {
 
     }
     private void update(ActionEvent e){
+        //获取用户选择的表的行数
+        int rowCount=table1.getSelectedRowCount();
+        if(rowCount==0){
+            JOptionPane.showMessageDialog(table1,"请至少选择一行","提示信息",JOptionPane.WARNING_MESSAGE);
+        }else if(rowCount>1){
+            JOptionPane.showMessageDialog(table1,"只能修改一行数据","提示信息",JOptionPane.WARNING_MESSAGE);
+        }else{
+            int row=table1.getSelectedRow();
+            Object id = table1.getValueAt(row, 0);
+            RoomTypeService service =new RoomTypeService();
+            RoomType roomtype =service.selectId(id);
+            RoomTypeUpdateUi typeUpdateUi = RoomTypeUpdateUi.getInstance();
+            typeUpdateUi.setRoomType(roomtype);
+            typeUpdateUi.setTable(table1);
+            UiUtil.indent(UI,typeUpdateUi);
+        }
+
         UiUtil.indent(UI,RoomInfoUpdateUi.getInstance());
     }
 

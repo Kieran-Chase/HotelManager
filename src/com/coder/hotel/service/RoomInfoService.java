@@ -34,4 +34,8 @@ public class RoomInfoService {
     public int deleteId(Object id) {
         return dao.delete(id);
     }
+
+    public RoomInfo selectId(Object id) {
+        return dao.selectId(id);
+    }
 }

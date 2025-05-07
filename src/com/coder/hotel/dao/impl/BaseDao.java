@@ -117,42 +117,55 @@ public class BaseDao<T> {
         // String sql="update 表名 set 字段1=?，字段2=?... where id字段=?";
         Class<?> aClass = entity.getClass();
         Field[] fields = aClass.getDeclaredFields();
-        Object[] values = new Object[fields.length];
+        List<Field> notExists=new ArrayList<>();//要存储不存在的字段
+        for(Field field:fields){
+            TableField tableField=field.getAnnotation(TableField.class);
+            if(tableField!=null){
+                boolean exists=tableField.exists();
+                if(!exists){
+                    notExists.add(field);
+                }
+            }
+        }
+
+        Object[] values = new Object[fields.length-notExists.size()];
         StringBuilder sql = new StringBuilder("update ");
         sql.append(aClass.getSimpleName().toLowerCase(Locale.ROOT)).append(" set ");
         String id = null;
         int index = 0;
         for (Field field : fields) {
-            String fieldName = field.getName();//id name  getId getName
-            //将首字母取出，转成大写方式
-            String firstLetter = String.valueOf(fieldName.charAt(0)).toUpperCase(Locale.ROOT);
-            //获取Method方法，getXXX的方法
-            Method method = null;
-            try {
-                //针对boolean类型，会生成isXXX的方法，进行判断
-                if (field.getType().getSimpleName().equals("boolean"))
-                    method = aClass.getDeclaredMethod("is" + firstLetter + fieldName.substring(1));
-                else
-                    method = aClass.getDeclaredMethod("get" + firstLetter + fieldName.substring(1));
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-            //获取主键的字段名
-            if (fieldName.contains("id") || fieldName.contains("Id")) {
-                id = fieldName;
-            } else {
-                sql.append(field.getName()).append("=?,");
-            }
-            try {
-                //通过字段调用get方法取值
-                //field.setAccessible(true);
-                //values[index++]=field.get(entity);
-                //通过调用getXXX的方法获取值
-                values[index++] = method.invoke(entity);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+            if(!notExists.contains(field)) {
+                String fieldName = field.getName();//id name  getId getName
+                //将首字母取出，转成大写方式
+                String firstLetter = String.valueOf(fieldName.charAt(0)).toUpperCase(Locale.ROOT);
+                //获取Method方法，getXXX的方法
+                Method method = null;
+                try {
+                    //针对boolean类型，会生成isXXX的方法，进行判断
+                    if (field.getType().getSimpleName().equals("boolean"))
+                        method = aClass.getDeclaredMethod("is" + firstLetter + fieldName.substring(1));
+                    else
+                        method = aClass.getDeclaredMethod("get" + firstLetter + fieldName.substring(1));
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+                //获取主键的字段名
+                if (fieldName.contains("id") || fieldName.contains("Id")) {
+                    id = fieldName;
+                } else {
+                    sql.append(field.getName()).append("=?,");
+                }
+                try {
+                    //通过字段调用get方法取值
+                    //field.setAccessible(true);
+                    //values[index++]=field.get(entity);
+                    //通过调用getXXX的方法获取值
+                    values[index++] = method.invoke(entity);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
         //将id元素放在数组的最后一位
@@ -173,10 +186,22 @@ public class BaseDao<T> {
             entity = persistentClass.getDeclaredConstructor().newInstance();
             aClass = entity.getClass();
             Field[] fields = aClass.getDeclaredFields();
+            List<Field> notExists=new ArrayList<>();//要存储不存在的字段
+            for(Field field:fields){
+                TableField tableField=field.getAnnotation(TableField.class);
+                if(tableField!=null){
+                    boolean exists=tableField.exists();
+                    if(!exists){
+                        notExists.add(field);
+                    }
+                }
+            }
             String idFieldName = null;
             for (Field field : fields) {
-                String name = field.getName();
-                sql.append(name).append(",");
+                if(!notExists.contains(field)) {
+                    String name = field.getName();
+                    sql.append(name).append(",");
+                }
             }
             for (Field field : fields) {
                 String name = field.getName();

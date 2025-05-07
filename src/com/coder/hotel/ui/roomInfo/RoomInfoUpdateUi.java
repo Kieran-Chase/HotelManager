@@ -4,6 +4,7 @@
 
 package com.coder.hotel.ui.roomInfo;
 
+import com.coder.hotel.entity.RoomInfo;
 import com.coder.hotel.service.RoomTypeService;
 import com.coder.hotel.util.UiUtil;
 
@@ -38,6 +39,16 @@ public class RoomInfoUpdateUi extends JFrame {
 
     private void reset(ActionEvent e) {
         // TODO add your code here
+        init();
+    }
+
+    private void init(){
+        level.setText(info.getLevel().toString());
+        roomnum.setText(info.getRoomnum());
+        price.setText(info.getPrice().toString());
+        deposit.setText(info.getDeposit().toString());
+        tel.setText(info.getTel());
+        remark.setText(info.getRemark());
     }
 
     private void goBack(ActionEvent e) {
@@ -222,6 +233,7 @@ public class RoomInfoUpdateUi extends JFrame {
         contentPane.setPreferredSize(new Dimension(800, 530));
         pack();
         setLocationRelativeTo(getOwner());
+
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
@@ -252,5 +264,22 @@ public class RoomInfoUpdateUi extends JFrame {
     private JButton button3;
     private JLabel label10;
     private ButtonGroup group;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
+    private RoomInfo info;
+    private JTable table;
+
+    public RoomInfo getInfo() {
+        return info;
+    }
+    public void setInfo(RoomInfo info) {
+        this.info = info;
+        //初始化数据
+        init();
+    }
+    public JTable getTable() {
+        return table;
+    }
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+// JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

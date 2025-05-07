@@ -179,15 +179,17 @@ public class RoomInfoUi extends JFrame {
         }else{
             int row=table1.getSelectedRow();
             Object id = table1.getValueAt(row, 0);
-            RoomTypeService service =new RoomTypeService();
-            RoomType roomtype =service.selectId(id);
-            RoomTypeUpdateUi typeUpdateUi = RoomTypeUpdateUi.getInstance();
-            typeUpdateUi.setRoomType(roomtype);
-            typeUpdateUi.setTable(table1);
-            UiUtil.indent(UI,typeUpdateUi);
+            RoomInfoService service =new RoomInfoService();
+            RoomInfo info=service.selectId(id);
+            System.out.println(info);
+            RoomInfoUpdateUi infoUpdateUi = RoomInfoUpdateUi.getInstance();
+            infoUpdateUi.setInfo(info);
+            infoUpdateUi.setTable(table1);
+            UiUtil.indent(UI,infoUpdateUi);
+
         }
 
-        UiUtil.indent(UI,RoomInfoUpdateUi.getInstance());
+
     }
 
     private void goBack(ActionEvent e) {

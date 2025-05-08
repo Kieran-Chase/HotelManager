@@ -3,12 +3,15 @@ package com.coder.hotel.dao.impl;
 import com.coder.hotel.dao.RoomInfoDao;
 import com.coder.hotel.entity.RoomInfo;
 import com.coder.hotel.util.DBUtil;
+import com.coder.hotel.util.StringUtil;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * @author wangqicheng
@@ -18,6 +21,23 @@ import java.util.List;
 public class RoomInfoDaoImpl extends BaseDao<RoomInfo> implements RoomInfoDao {
     @Override
     public List<RoomInfo> selectByExample(RoomInfo info) {
+        List<Object> arguments=new ArrayList<>();
+        String sql="select r.id,r.tid,r.level,r.roomnum,r.price," +
+                "r.deposit,r.tel,r.status,r.remark,t.type " +
+                "from roominfo r join roomtype t on tid=t.id where 1=1";
+        if(StringUtil.isNotEmpty(info.getType())){
+
+        }
+
+        Object[] args=arguments.toArray();
+        QueryRunner runner=new QueryRunner(DBUtil.getDataSource());
+        try {
+            List<RoomInfo> query = runner.query(sql,
+                    new BeanListHandler<RoomInfo>(RoomInfo.class),args);
+            return query;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

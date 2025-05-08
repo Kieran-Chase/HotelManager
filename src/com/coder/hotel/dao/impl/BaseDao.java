@@ -150,7 +150,7 @@ public class BaseDao<T> {
                     e.printStackTrace();
                 }
                 //获取主键的字段名
-                if (fieldName.contains("id") || fieldName.contains("Id")) {
+                if (fieldName.equals("id") || fieldName.contains("Id")) {
                     id = fieldName;
                 } else {
                     sql.append(field.getName()).append("=?,");

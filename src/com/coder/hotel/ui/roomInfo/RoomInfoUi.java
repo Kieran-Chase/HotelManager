@@ -11,6 +11,7 @@ import com.coder.hotel.service.RoomTypeService;
 import com.coder.hotel.ui.MainUi;
 import com.coder.hotel.ui.roomType.RoomTypeUpdateUi;
 import com.coder.hotel.util.Page;
+import com.coder.hotel.util.StringUtil;
 import com.coder.hotel.util.TableStyle;
 import com.coder.hotel.util.UiUtil;
 
@@ -199,6 +200,23 @@ public class RoomInfoUi extends JFrame {
 
     }
 
+    private void query(ActionEvent e){
+        String type=textField1.getText();
+        String level= StringUtil.isEmpty(textField2.getText())?"0":textField2.getText();
+        String roomnum=textField3.getText();
+        //将数据封装成一个Room Info对象，传给service层，去做查询处理
+        RoomInfo info=new RoomInfo();
+        info.setType(type);
+        info.setLevel(Integer.valueOf(level));
+        info.setRoomnum(roomnum);
+        Page pageInfo=service.getPage(1);
+        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+        data=service.selectExample(info);
+        model.setDataVector(data,column);
+        page.setText(pageInfo.getPage().toString());
+        table1.updateUI();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         label1 = new JLabel();
@@ -281,6 +299,7 @@ public class RoomInfoUi extends JFrame {
             queryBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u67e5\u8be2.png")));
             panel1.add(queryBtn);
             queryBtn.setBounds(640, 10, 80, 40);
+            queryBtn.addActionListener(this::query);
 
             //---- label4 ----
             label4.setText("\u623f\u95f4\u7c7b\u578b");

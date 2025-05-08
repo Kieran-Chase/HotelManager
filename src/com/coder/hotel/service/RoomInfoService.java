@@ -24,6 +24,10 @@ public class RoomInfoService {
         List<RoomInfo> roomInfos = dao.selectPage(page);
         return dao.listToArray(roomInfos);
     }
+    public Object [][] selectExample(RoomInfo info){
+        List<RoomInfo> roomInfos=dao.selectByExample(info);
+        return dao.listToArray(roomInfos);
+    }
     public Page getPage(long page){
         long total=dao.getTotal();
         long size=5;
@@ -37,5 +41,9 @@ public class RoomInfoService {
 
     public RoomInfo selectId(Object id) {
         return dao.selectId(id);
+    }
+
+    public int update(RoomInfo info) {
+        return dao.update(info);
     }
 }

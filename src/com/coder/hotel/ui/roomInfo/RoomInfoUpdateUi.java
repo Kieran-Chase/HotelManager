@@ -5,13 +5,17 @@
 package com.coder.hotel.ui.roomInfo;
 
 import com.coder.hotel.entity.RoomInfo;
+import com.coder.hotel.entity.RoomType;
+import com.coder.hotel.service.RoomInfoService;
 import com.coder.hotel.service.RoomTypeService;
+import com.coder.hotel.util.Page;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
@@ -27,14 +31,69 @@ public class RoomInfoUpdateUi extends JFrame {
 
     private void getTypeInfo(ItemEvent e) {
         // TODO add your code here
+        String item = type.getSelectedItem().toString();
+        int index=-type.getSelectedIndex();
+        if(index!=0) {
+            roomType = typeService.selectType(item);
+            price.setText(roomType.getPrice().toString());
+            deposit.setText(roomType.getDeposit().toString());
+        }
     }
 
     private void getTel(FocusEvent e) {
         // TODO add your code here
+        tel.setText(roomnum.getText());
     }
 
     private void submit(ActionEvent e) {
         // TODO add your code here
+        //确定校验处理
+        String levelVal=level.getText();
+        int index=type.getSelectedIndex();
+        String roomnumVal=roomnum.getText();
+        String priceVal=price.getText();
+        String depositVal=deposit.getText();
+        String telVal=tel.getText();
+        //执行到这里，就说明所有的校验全部通过
+        //RoomInfo info=new RoomInfo();
+        info.setLevel(Integer.parseInt(levelVal));
+        info.setTid(roomType.getId());
+        info.setRoomnum(roomnumVal);
+        info.setPrice(Integer.parseInt(priceVal));
+        info.setDeposit(Integer.parseInt(depositVal));
+        info.setTel(telVal);
+        if(s1.isSelected()){
+            info.setStatus("空");
+        }
+        if(s2.isSelected()){
+            info.setStatus("有客");
+        }
+        if(s3.isSelected()){
+            info.setStatus("空脏");
+        }
+        info.setRemark(remark.getText());
+        //info.setType();
+        RoomInfoService service=new RoomInfoService();
+        int i=service.update(info);
+        if(i>0){
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            //重新查询一下数据库
+            Object[][] objects=service.selectList(1);
+            String [] column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+            model.setDataVector(objects,column);
+            //获取页码相关信息
+            /*Page pageInfo=service.getPage(1);
+            total.setText(pageInfo.getTotal().toString());
+            //当前页
+            pages.setText(pageInfo.getPages().toString());*/
+
+            table.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
+            table.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
+            table.getTableHeader().getColumnModel().getColumn(2).setPreferredWidth(0);
+            table.updateUI();
+            JOptionPane.showMessageDialog(this,"更新成功");
+            goBack(e);
+        }
     }
 
     private void reset(ActionEvent e) {
@@ -43,12 +102,28 @@ public class RoomInfoUpdateUi extends JFrame {
     }
 
     private void init(){
+        //回显数据
         level.setText(info.getLevel().toString());
         roomnum.setText(info.getRoomnum());
         price.setText(info.getPrice().toString());
         deposit.setText(info.getDeposit().toString());
         tel.setText(info.getTel());
         remark.setText(info.getRemark());
+
+        //处理回显状态
+        String status = info.getStatus();
+        switch(status){
+            case"空":
+                s1.setSelected(true);break;
+            case"有客":
+                s2.setSelected(true);break;
+            case"空脏":
+                s3.setSelected(true);break;
+        }
+        //处理回显房间类型
+        Integer tid = info.getTid();
+        RoomType roomType = typeService.selectId(tid);
+        type.setSelectedItem(roomType.getType());
     }
 
     private void goBack(ActionEvent e) {
@@ -63,9 +138,9 @@ public class RoomInfoUpdateUi extends JFrame {
         label2 = new JLabel();
         level = new JFormattedTextField(NumberFormat.getInstance());
         label3 = new JLabel();
-        //typeService=new RoomTypeService();
-        //
-        type = new JComboBox();
+        typeService=new RoomTypeService();
+        Object[] types=typeService.getTypes();
+        type = new JComboBox(types);
         label4 = new JLabel();
         roomnum = new JTextField();
         label5 = new JLabel();
@@ -266,6 +341,8 @@ public class RoomInfoUpdateUi extends JFrame {
     private ButtonGroup group;
     private RoomInfo info;
     private JTable table;
+    private RoomTypeService typeService;
+    private RoomType roomType;
 
     public RoomInfo getInfo() {
         return info;

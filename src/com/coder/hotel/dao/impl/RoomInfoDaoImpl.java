@@ -22,13 +22,19 @@ public class RoomInfoDaoImpl extends BaseDao<RoomInfo> implements RoomInfoDao {
     @Override
     public List<RoomInfo> selectByExample(RoomInfo info) {
         List<Object> arguments=new ArrayList<>();
-        String sql="select r.id,r.tid,r.level,r.roomnum,r.price," +
-                "r.deposit,r.tel,r.status,r.remark,t.type " +
-                "from roominfo r join roomtype t on tid=t.id where 1=1";
+        String sql="select r.id,r.tid,r.level,r.roomnum,r.price,r.deposit,r.tel,r.status,r.remark,t.type from roominfo r join roomtype t on tid=t.id where 1=1";
         if(StringUtil.isNotEmpty(info.getType())){
-
+            sql+=" and r.tid=(select id from roomtype where type=?)";
+            arguments.add(info.getType());
         }
-
+        if(info.getLevel()!=0){
+            sql+=" and r.level=?";
+            arguments.add(info.getLevel());
+        }
+        if(StringUtil.isNotEmpty(info.getRoomnum())){
+            sql+=" and r.roomnum like ?";
+            arguments.add("%"+info.getRoomnum()+"%");
+        }
         Object[] args=arguments.toArray();
         QueryRunner runner=new QueryRunner(DBUtil.getDataSource());
         try {

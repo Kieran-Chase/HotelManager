@@ -3,6 +3,7 @@ package com.coder.hotel.dao.impl;
 import com.coder.hotel.dao.RoomInfoDao;
 import com.coder.hotel.entity.RoomInfo;
 import com.coder.hotel.util.DBUtil;
+import com.coder.hotel.util.Page;
 import com.coder.hotel.util.StringUtil;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -20,7 +21,8 @@ import java.util.List;
  */
 public class RoomInfoDaoImpl extends BaseDao<RoomInfo> implements RoomInfoDao {
     @Override
-    public List<RoomInfo> selectByExample(RoomInfo info) {
+    public List<RoomInfo> selectByExample(RoomInfo info, int page) {
+        int s=(page-1)*5;
         List<Object> arguments=new ArrayList<>();
         String sql="select r.id,r.tid,r.level,r.roomnum,r.price,r.deposit,r.tel,r.status,r.remark,t.type from roominfo r join roomtype t on tid=t.id where 1=1";
         if(StringUtil.isNotEmpty(info.getType())){

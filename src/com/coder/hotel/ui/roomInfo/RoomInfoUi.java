@@ -211,7 +211,7 @@ public class RoomInfoUi extends JFrame {
         info.setRoomnum(roomnum);
         Page pageInfo=service.getPage(1);
         column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
-        data=service.selectExample(info);
+        data=service.selectExample(info,1);
         model.setDataVector(data,column);
         page.setText(pageInfo.getPage().toString());
         table1.updateUI();

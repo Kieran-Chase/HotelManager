@@ -24,8 +24,8 @@ public class RoomInfoService {
         List<RoomInfo> roomInfos = dao.selectPage(page);
         return dao.listToArray(roomInfos);
     }
-    public Object [][] selectExample(RoomInfo info){
-        List<RoomInfo> roomInfos=dao.selectByExample(info);
+    public Object [][] selectExample(RoomInfo info,int page){
+        List<RoomInfo> roomInfos=dao.selectByExample(info,page);
         return dao.listToArray(roomInfos);
     }
     public Page getPage(long page){

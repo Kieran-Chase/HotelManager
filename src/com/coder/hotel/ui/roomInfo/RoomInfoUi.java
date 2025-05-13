@@ -234,20 +234,7 @@ public class RoomInfoUi extends JFrame {
         updateBtn = new JButton();
         backBtn = new JButton();
         scrollPane1 = new JScrollPane();
-        //初始化jtable数据
-        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
-        service=new RoomInfoService();
-        data=service.selectList(1);
-        model=new CustomModel(data,column);
-        table1 = new JTable(model);
-        TableStyle.setStyle(table1);
-        //删除表格列
-        //table1.removeColumn(table1.getColumnModel().getColumn(2));
-        //隐藏表格列
-        table1.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
-        table1.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
-        table1.getTableHeader().getColumnModel().getColumn(2).setPreferredWidth(0);
-
+        table1 = new JTable();
         button1 = new JButton();
         button2 = new JButton();
         button3 = new JButton();
@@ -259,13 +246,6 @@ public class RoomInfoUi extends JFrame {
         label12 = new JLabel();
         pages = new JLabel();
         label6 = new JLabel();
-
-        //获取页码相关信息
-        Page pageInfo=service.getPage(1);
-        total.setText(pageInfo.getTotal().toString());
-        //当前页
-        page.setText(pageInfo.getPage().toString());
-        pages.setText(pageInfo.getPages().toString());
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -280,7 +260,7 @@ public class RoomInfoUi extends JFrame {
         label1.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 28));
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         contentPane.add(label1);
-        label1.setBounds(30, 20, 750, 50);
+        label1.setBounds(0, 20, 800, 50);
 
         //======== panel1 ========
         {
@@ -299,7 +279,6 @@ public class RoomInfoUi extends JFrame {
             queryBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u67e5\u8be2.png")));
             panel1.add(queryBtn);
             queryBtn.setBounds(640, 10, 80, 40);
-            queryBtn.addActionListener(this::query);
 
             //---- label4 ----
             label4.setText("\u623f\u95f4\u7c7b\u578b");
@@ -328,21 +307,18 @@ public class RoomInfoUi extends JFrame {
         addBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u65b0\u589e.png")));
         contentPane.add(addBtn);
         addBtn.setBounds(25, 135, 90, 50);
-        addBtn.addActionListener(this::add);
 
         //---- deleteBtn ----
         deleteBtn.setText("\u5220\u9664");
         deleteBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u5220 \u9664 .png")));
         contentPane.add(deleteBtn);
         deleteBtn.setBounds(115, 135, 85, 50);
-        deleteBtn.addActionListener(this::delete);
 
         //---- updateBtn ----
         updateBtn.setText("\u4fee\u6539");
         updateBtn.setIcon(new ImageIcon(getClass().getResource("/img/\u4fee\u6539.png")));
         contentPane.add(updateBtn);
         updateBtn.setBounds(200, 135, 85, 50);
-        updateBtn.addActionListener(this::update);
 
         //---- backBtn ----
         backBtn.setText("\u8fd4\u56de");
@@ -385,12 +361,6 @@ public class RoomInfoUi extends JFrame {
         contentPane.add(button4);
         button4.setBounds(600, 440, 90, 40);
 
-        //调用分页处理按钮
-        button1.addActionListener(this::first);
-        button2.addActionListener(this::previous);
-        button3.addActionListener(this::next );
-        button4.addActionListener(this::last);
-
         //---- label8 ----
         label8.setText("\u603b\u8bb0\u5f55\uff1a");
         label8.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
@@ -399,7 +369,7 @@ public class RoomInfoUi extends JFrame {
         label8.setBounds(new Rectangle(new Point(35, 450), label8.getPreferredSize()));
 
         //---- total ----
-        //total.setText("100");
+        total.setText("100");
         total.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         total.setForeground(Color.white);
         contentPane.add(total);
@@ -413,7 +383,7 @@ public class RoomInfoUi extends JFrame {
         label10.setBounds(new Rectangle(new Point(120, 450), label10.getPreferredSize()));
 
         //---- page ----
-        //page.setText("1");
+        page.setText("1");
         page.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         page.setForeground(Color.white);
         contentPane.add(page);
@@ -427,7 +397,7 @@ public class RoomInfoUi extends JFrame {
         label12.setBounds(new Rectangle(new Point(195, 450), label12.getPreferredSize()));
 
         //---- pages ----
-        //pages.setText("20");
+        pages.setText("20");
         pages.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         pages.setForeground(Color.white);
         contentPane.add(pages);
@@ -472,9 +442,5 @@ public class RoomInfoUi extends JFrame {
     private JLabel label12;
     private JLabel pages;
     private JLabel label6;
-    private String[] column;
-    private Object[][]data;
-    private RoomInfoService service;
-    private CustomModel model;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

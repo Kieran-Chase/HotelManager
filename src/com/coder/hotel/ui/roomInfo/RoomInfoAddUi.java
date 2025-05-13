@@ -149,36 +149,21 @@ public class RoomInfoAddUi extends JFrame {
         label1 = new JLabel();
         panel1 = new JPanel();
         label2 = new JLabel();
-        level = new JFormattedTextField(NumberFormat.getInstance());
+        level = new JFormattedTextField();
         label3 = new JLabel();
-        //查询房间类型的数据，将数据放到type下拉列表中
-        typeService =new RoomTypeService();
-        Object[] types=typeService.getTypes();
-        type = new JComboBox(types);
-        type.addItemListener(this::getTypeInfo);
+        type = new JComboBox();
         label4 = new JLabel();
         roomnum = new JTextField();
-        roomnum.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                getTel(e);
-            }
-        });
         label5 = new JLabel();
-        price = new JFormattedTextField(NumberFormat.getInstance());
+        price = new JFormattedTextField();
         label6 = new JLabel();
-        deposit = new JFormattedTextField(NumberFormat.getInstance());
+        deposit = new JFormattedTextField();
         label7 = new JLabel();
         tel = new JTextField();
         label8 = new JLabel();
-        group=new ButtonGroup();
         s1 = new JRadioButton();
         s2 = new JRadioButton();
         s3 = new JRadioButton();
-        group.add(s1);
-        group.add(s2);
-        group.add(s3);
-        s1.setSelected(true);
         scrollPane1 = new JScrollPane();
         remark = new JTextArea();
         label9 = new JLabel();
@@ -293,20 +278,16 @@ public class RoomInfoAddUi extends JFrame {
             button1.setText("\u786e\u5b9a");
             panel1.add(button1);
             button1.setBounds(new Rectangle(new Point(185, 375), button1.getPreferredSize()));
-            button1.addActionListener(this::submit);
-
 
             //---- button2 ----
             button2.setText("\u91cd\u7f6e");
             panel1.add(button2);
             button2.setBounds(new Rectangle(new Point(285, 375), button2.getPreferredSize()));
-            button2.addActionListener(this::reset);
 
             //---- button3 ----
             button3.setText("\u8fd4\u56de");
             panel1.add(button3);
             button3.setBounds(new Rectangle(new Point(382, 375), button3.getPreferredSize()));
-            button3.addActionListener(this::goBack);
         }
         contentPane.add(panel1);
         panel1.setBounds(85, 60, 640, 435);
@@ -349,32 +330,5 @@ public class RoomInfoAddUi extends JFrame {
     private JButton button2;
     private JButton button3;
     private JLabel label10;
-
-    private RoomTypeService typeService;
-    private ButtonGroup group;//按钮组
-    private RoomType roomType;
-    private JTable table;
-    private JLabel total;
-    private JLabel pages;
-
-
-    public JLabel getTotal() {
-        return total;
-    }
-    public void setTotal(JLabel total) {
-        this.total = total;
-    }
-    public JLabel getPages() {
-        return pages;
-    }
-    public void setPages(JLabel pages) {
-      this.pages = pages;
-    }
-    public JTable getTable() {
-        return table;
-    }
-    public void setTable(JTable table) {
-        this.table = table;
-    }
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

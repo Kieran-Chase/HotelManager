@@ -136,21 +136,28 @@ public class RoomInfoUpdateUi extends JFrame {
         label1 = new JLabel();
         panel1 = new JPanel();
         label2 = new JLabel();
-        level = new JFormattedTextField();
+        level = new JFormattedTextField(NumberFormat.getInstance());
         label3 = new JLabel();
-        type = new JComboBox();
+        typeService=new RoomTypeService();
+        Object[] types=typeService.getTypes();
+        type = new JComboBox(types);
         label4 = new JLabel();
         roomnum = new JTextField();
         label5 = new JLabel();
-        price = new JFormattedTextField();
+        price = new JFormattedTextField(NumberFormat.getInstance());
         label6 = new JLabel();
-        deposit = new JFormattedTextField();
+        deposit = new JFormattedTextField(NumberFormat.getInstance());
         label7 = new JLabel();
         tel = new JTextField();
         label8 = new JLabel();
+        group =new ButtonGroup();
         s1 = new JRadioButton();
         s2 = new JRadioButton();
         s3 = new JRadioButton();
+        group.add(s1);
+        group.add(s2);
+        group.add(s3);
+        s1.setSelected(true);
         scrollPane1 = new JScrollPane();
         remark = new JTextArea();
         label9 = new JLabel();
@@ -301,6 +308,7 @@ public class RoomInfoUpdateUi extends JFrame {
         contentPane.setPreferredSize(new Dimension(800, 530));
         pack();
         setLocationRelativeTo(getOwner());
+
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
@@ -330,5 +338,25 @@ public class RoomInfoUpdateUi extends JFrame {
     private JButton button2;
     private JButton button3;
     private JLabel label10;
+    private ButtonGroup group;
+    private RoomInfo info;
+    private JTable table;
+    private RoomTypeService typeService;
+    private RoomType roomType;
+
+    public RoomInfo getInfo() {
+        return info;
+    }
+    public void setInfo(RoomInfo info) {
+        this.info = info;
+        //初始化数据
+        init();
+    }
+    public JTable getTable() {
+        return table;
+    }
+    public void setTable(JTable table) {
+        this.table = table;
+    }
 // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

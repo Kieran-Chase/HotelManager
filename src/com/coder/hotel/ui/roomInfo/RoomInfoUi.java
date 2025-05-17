@@ -46,6 +46,13 @@ public class RoomInfoUi extends JFrame {
     //下面四个方法可封装()
     //下面四个方法可封装()
     //下面四个方法可封装()
+    private void page(Page pageInfo,int currentPage){
+        column=new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
+        data=service.selectList(currentPage);
+        model.setDataVector(data,column);
+        page.setText(pageInfo.getPage().toString());
+        table1.updateUI();
+    }
 
 
     //处理分页按钮事件
@@ -205,7 +212,7 @@ public class RoomInfoUi extends JFrame {
         String level= StringUtil.isEmpty(textField2.getText())?"0":textField2.getText();
         String roomnum=textField3.getText();
         //将数据封装成一个Room Info对象，传给service层，去做查询处理
-        RoomInfo info=new RoomInfo();
+        info=new RoomInfo();
         info.setType(type);
         info.setLevel(Integer.valueOf(level));
         info.setRoomnum(roomnum);
@@ -218,6 +225,10 @@ public class RoomInfoUi extends JFrame {
     }
 
     private void initComponents() {
+        info =new RoomInfo();
+        info.setType("");
+        info.setLevel(0);
+        info.setRoomnum("");
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         label1 = new JLabel();
         panel1 = new JPanel();
@@ -476,5 +487,6 @@ public class RoomInfoUi extends JFrame {
     private Object[][]data;
     private RoomInfoService service;
     private CustomModel model;
+    private RoomInfo info;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

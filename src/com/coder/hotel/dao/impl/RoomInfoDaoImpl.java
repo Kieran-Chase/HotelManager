@@ -37,6 +37,7 @@ public class RoomInfoDaoImpl extends BaseDao<RoomInfo> implements RoomInfoDao {
             sql+=" and r.roomnum like ?";
             arguments.add("%"+info.getRoomnum()+"%");
         }
+        sql+=" order by r.id limit "+s+",5";
         Object[] args=arguments.toArray();
         QueryRunner runner=new QueryRunner(DBUtil.getDataSource());
         try {

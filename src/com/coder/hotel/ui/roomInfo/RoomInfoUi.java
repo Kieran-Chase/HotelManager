@@ -46,9 +46,9 @@ public class RoomInfoUi extends JFrame {
     //下面四个方法可封装()
     //下面四个方法可封装()
     //下面四个方法可封装()
-    private void page(Page pageInfo,int currentPage){
+    private void page(Page pageInfo,int currentPage,RoomInfo info){
         column=new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
-        data=service.selectList(currentPage);
+        data=service.selectExample(info,currentPage);
         model.setDataVector(data,column);
         page.setText(pageInfo.getPage().toString());
         table1.updateUI();
@@ -56,34 +56,22 @@ public class RoomInfoUi extends JFrame {
 
 
     //处理分页按钮事件
-    private void first(ActionEvent e){
-        Page pageInfo=service.getPage(1);
-        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
-        data=service.selectList(1);
-        model.setDataVector(data,column);
-        //设置一下当前页
-        page.setText(pageInfo.getPage().toString());
-        table1.updateUI();
+    private void first(ActionEvent e) {
+        Page pageInfo = service.getPage(info,1);
+        page(pageInfo, 1, info);
         doHide();
     }
     private void previous(ActionEvent e) {
-        Page pageInfo = service.getPage(1); // 获取分页信息（总页数等）
-        String c = page.getText(); // 当前页码文本
-        Long currentPage = Long.parseLong(c); // 当前页码数字
-
-        if (currentPage > 1) {
-            pageInfo.setPage(currentPage - 1); // 设置上一页页码
-
-            column = new String[]{"id", "楼层", "房型id", "房间类型", "房间号", "单价", "押金", "电话", "状态", "备注"};
+        Page pageInfo = service.getPage(info,1);
+        String c = page.getText();//获取当前页码
+        if (!c.equals("1")) {
+            pageInfo.setPage(Long.parseLong(c) - 1);
             long p = pageInfo.getPage();
-            data = service.selectList((int) p); // 查询上一页数据
-
-            model.setDataVector(data, column); // 更新表格
-            page.setText(pageInfo.getPage().toString()); // 更新当前页文本
-            table1.updateUI();
+            page(pageInfo, (int) p, info);
         }
         doHide();
     }
+
     /*private void previous(ActionEvent e){
         Page pageInfo=service.getPage(1);
         String c=page.getText();//获取当前页码
@@ -98,35 +86,24 @@ public class RoomInfoUi extends JFrame {
             table1.updateUI();
         }
     }*/
-    private void next(ActionEvent e){
-        Page pageInfo=service.getPage(1);
+    private void next(ActionEvent e) {
+        Page pageInfo = service.getPage(info,1);
         //获取最后一页
-        Long lastPage=pageInfo.getPages();
-        //获取当前页码
-        String c=page.getText();
-        Long currentPage=Long.parseLong(page.getText());
-        if(currentPage<lastPage){
-            pageInfo.setPage(currentPage+1);
-            column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
-            long p=pageInfo.getPage();
-            data=service.selectList((int)p);
-            model.setDataVector(data,column);
-            //设置一下当前页
-            page.setText(pageInfo.getPage().toString());
-            table1.updateUI();
+        Long lastPage = pageInfo.getPages();
+        String c = page.getText();//获取当前页码
+        Long currentPage = Long.parseLong(c);
+        if (currentPage < lastPage) {
+            pageInfo.setPage(currentPage + 1);
+            long p = pageInfo.getPage();
+            page(pageInfo, (int) p, info);
         }
         doHide();
     }
-    private void last(ActionEvent e){
-        Page pageInfo=service.getPage(1);
-        pageInfo.setPage(pageInfo.getPages());//设置当前页是最后一页
-        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
-        long p=pageInfo.getPage();
-        data=service.selectList((int)p);
-        model.setDataVector(data,column);
-        //设置一下当前页
-        page.setText(pageInfo.getPage().toString());
-        table1.updateUI();
+    private void last(ActionEvent e) {
+        Page pageInfo = service.getPage(info,1);
+        pageInfo.setPage(pageInfo.getPages());
+        long p = pageInfo.getPage();
+        page(pageInfo, (int) p, info);
         doHide();
     }
     private void doHide(){
@@ -163,8 +140,9 @@ public class RoomInfoUi extends JFrame {
 
         }
         //table1.updateUI();//刷新界面
-        Page pageInfo=service.getPage(1);
+        Page pageInfo=service.getPage(info,1);
         total.setText(pageInfo.getTotal().toString());
+        pages.setText(pageInfo.getPages().toString());
         first(e);
     }
 
@@ -194,17 +172,13 @@ public class RoomInfoUi extends JFrame {
             infoUpdateUi.setInfo(info);
             infoUpdateUi.setTable(table1);
             UiUtil.indent(UI,infoUpdateUi);
-
         }
-
-
     }
 
     private void goBack(ActionEvent e) {
         // TODO add your code here
         first(e);
         UiUtil.indent(UI, MainUi.getFrame());
-
     }
 
     private void query(ActionEvent e){
@@ -216,12 +190,11 @@ public class RoomInfoUi extends JFrame {
         info.setType(type);
         info.setLevel(Integer.valueOf(level));
         info.setRoomnum(roomnum);
-        Page pageInfo=service.getPage(1);
-        column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
-        data=service.selectExample(info,1);
-        model.setDataVector(data,column);
-        page.setText(pageInfo.getPage().toString());
-        table1.updateUI();
+        Page pageInfo=service.getPage(info,1);
+        page(pageInfo,1,info);
+        total.setText(pageInfo.getTotal().toString());
+        pages.setText(pageInfo.getPages().toString());
+        doHide();
     }
 
     private void initComponents() {
@@ -272,7 +245,7 @@ public class RoomInfoUi extends JFrame {
         label6 = new JLabel();
 
         //获取页码相关信息
-        Page pageInfo=service.getPage(1);
+        Page pageInfo=service.getPage(info,1);
         total.setText(pageInfo.getTotal().toString());
         //当前页
         page.setText(pageInfo.getPage().toString());

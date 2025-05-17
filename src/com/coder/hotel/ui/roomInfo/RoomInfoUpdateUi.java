@@ -59,8 +59,8 @@ public class RoomInfoUpdateUi extends JFrame {
         info.setLevel(Integer.parseInt(levelVal));
         info.setTid(roomType.getId());
         info.setRoomnum(roomnumVal);
-        info.setPrice(Integer.parseInt(priceVal));
-        info.setDeposit(Integer.parseInt(depositVal));
+        info.setPrice(Integer.parseInt(priceVal.replace(",","")));
+        info.setDeposit(Integer.parseInt(depositVal.replace(",","")));
         info.setTel(telVal);
         if(s1.isSelected()){
             info.setStatus("空");

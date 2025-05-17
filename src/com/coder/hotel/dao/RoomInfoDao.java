@@ -20,5 +20,5 @@ public interface RoomInfoDao {
     List<RoomInfo> selectByExample(RoomInfo info,int page);
     Object[][] listToArray(List<RoomInfo>list);
     List<RoomInfo> selectPage(int page);
-    Long getTotal();
+    Long getTotal(RoomInfo info);
 }

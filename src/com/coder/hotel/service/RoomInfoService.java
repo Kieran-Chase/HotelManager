@@ -28,8 +28,8 @@ public class RoomInfoService {
         List<RoomInfo> roomInfos=dao.selectByExample(info,page);
         return dao.listToArray(roomInfos);
     }
-    public Page getPage(long page){
-        long total=dao.getTotal();
+    public Page getPage(RoomInfo info,long page){
+        long total=dao.getTotal(info);
         long size=5;
         long pages=total%size==0?total/size:total/size+1;
         return new Page(pages,page,size,total);

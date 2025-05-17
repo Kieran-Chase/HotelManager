@@ -114,8 +114,12 @@ public class RoomInfoAddUi extends JFrame {
             Object[][] objects=service.selectList(1);
             String [] column =new String[]{"id","楼层","房型id","房间类型","房间号","单价","押金","电话","状态","备注"};
             model.setDataVector(objects,column);
+            RoomInfo info1=new RoomInfo();
+            info1.setType("");
+            info1.setLevel(0);
+            info1.setRoomnum("");
             //获取页码相关信息
-            Page pageInfo=service.getPage(1);
+            Page pageInfo=service.getPage(info1,1);
             total.setText(pageInfo.getTotal().toString());
             //当前页
             pages.setText(pageInfo.getPages().toString());
@@ -123,10 +127,7 @@ public class RoomInfoAddUi extends JFrame {
             JOptionPane.showMessageDialog(this,"保存成功");
             goBack(e);
         }
-
-
     }
-
 
     private boolean validate(String value,String name){
         if (StringUtil.isEmpty(value)) {

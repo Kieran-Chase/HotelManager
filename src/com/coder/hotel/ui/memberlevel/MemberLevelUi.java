@@ -44,6 +44,9 @@ public class MemberLevelUi extends JFrame {
         memberLevel.setLevel(level);
         memberLevel.setLow(Integer.valueOf(low));
         memberLevel.setHigh(Integer.valueOf(high));
+        objects=service.selectExample(memberLevel);
+        model.setDataVector(objects,column);
+        table1.updateUI();
     }
 
     private void clear(ActionEvent e) {

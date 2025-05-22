@@ -50,6 +50,12 @@ public class MemberLevelUi extends JFrame {
     }
 
     private void clear(ActionEvent e) {
+        objects=service.selectList();
+        model.setDataVector(objects,column);
+        table1.updateUI();
+        levelVal.setText("");
+        lowVal.setText("");
+        highVal.setText("");
         // TODO add your code here
     }
 

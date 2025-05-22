@@ -2,8 +2,12 @@ package com.coder.hotel.dao.impl;
 
 import com.coder.hotel.dao.MemberLevelDao;
 import com.coder.hotel.entity.MemberLevel;
+import com.coder.hotel.util.DBUtil;
 import com.coder.hotel.util.StringUtil;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +23,7 @@ public class MemberLevelDaoImpl extends BaseDao<MemberLevel> implements MemberLe
         List<Object> args=new ArrayList<Object>();
         if(StringUtil.isNotEmpty(level.getLevel())){
             sql+=" and level like ?";
-            args.add(level.getLevel());
+            args.add("%"+level.getLevel()+"%");
         }
         if(level.getHigh()!=0){
             sql+=" and high<= ?";
@@ -28,6 +32,12 @@ public class MemberLevelDaoImpl extends BaseDao<MemberLevel> implements MemberLe
         if(level.getLow()!=0){
             sql+=" and low>= ?";
             args.add(level.getLow());
+        }
+        QueryRunner queryRunner=new QueryRunner(DBUtil.getDataSource());
+        try {
+            return queryRunner.query(sql,new BeanListHandler<MemberLevel>(MemberLevel.class),args.toArray());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }

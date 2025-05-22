@@ -59,8 +59,11 @@ public class MemberLevelUi extends JFrame {
         // TODO add your code here
     }
 
-    private void add(ActionEvent e) {
+    private void save(ActionEvent e) {
         // TODO add your code here
+        MemberLevelAddUi addUi=MemberLevelAddUi.getInstance();
+        addUi.setTable(table1);
+        UiUtil.indent(UI,addUi);
     }
 
     private void update(ActionEvent e) {
@@ -187,7 +190,7 @@ public class MemberLevelUi extends JFrame {
 
         //---- addBtn ----
         addBtn.setText("\u65b0\u589e");
-        addBtn.addActionListener(e -> add(e));
+        addBtn.addActionListener(e -> save(e));
         contentPane.add(addBtn);
         addBtn.setBounds(25, 115, 105, 50);
 
@@ -249,5 +252,12 @@ public class MemberLevelUi extends JFrame {
     private MemberLevelService service;
     private Object[][] objects;
     private CustomModel model;
+    private JTable table;
+    public JTable getTable() {
+        return table;
+    }
+    public void setTable(JTable table) {
+        this.table = table;
+    }
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

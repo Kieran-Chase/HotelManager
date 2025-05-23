@@ -79,9 +79,9 @@ public class MainUi extends JFrame {
         button2.setText("\u623f\u95f4\u7ba1\u7406");
         button2.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         button2.setIcon(new ImageIcon(getClass().getResource("/img/\u623f\u95f4\u7ba1\u7406.png")));
+        button2.addActionListener(e -> goRoomInfo(e));
         contentPane.add(button2);
         button2.setBounds(170, 230, 115, 115);
-        button2.addActionListener(this::goRoomInfo);
 
         //---- button3 ----
         button3.setText("\u7528\u6237\u7ba1\u7406");
@@ -94,9 +94,9 @@ public class MainUi extends JFrame {
         button4.setText("\u4f1a\u5458\u7b49\u7ea7");
         button4.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         button4.setIcon(new ImageIcon(getClass().getResource("/img/\u4f1a\u5458\u7b49\u7ea7.png")));
+        button4.addActionListener(e -> goMemberLevel(e));
         contentPane.add(button4);
         button4.setBounds(285, 230, 115, 115);
-        button4.addActionListener(this::goMemberLevel);
 
         //---- button5 ----
         button5.setText("\u4f1a\u5458\u4fe1\u606f");

@@ -28,4 +28,8 @@ public class MemberLevelService {
     public int deleteId(Object id) {
         return dao.delete(id);
     }
+
+    public int save(MemberLevel memberLevel) {
+        return dao.save(memberLevel);
+    }
 }

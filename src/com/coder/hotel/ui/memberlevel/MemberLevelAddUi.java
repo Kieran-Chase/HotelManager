@@ -4,11 +4,15 @@
 
 package com.coder.hotel.ui.memberlevel;
 
+import com.coder.hotel.entity.MemberLevel;
+import com.coder.hotel.service.MemberLevelService;
+import com.coder.hotel.util.StringUtil;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
@@ -24,6 +28,43 @@ public class MemberLevelAddUi extends JFrame {
 
     private void submit(ActionEvent e) {
         // TODO add your code here
+        String level=levelVal.getText();
+        if(StringUtil.isEmpty(level)){
+            JOptionPane.showMessageDialog(this,"等级名称不能为空！");
+            return;
+        }
+        String low =lowVal.getText();
+        if(StringUtil.isEmpty(low)){
+            JOptionPane.showMessageDialog(this,"低值不能为空！");
+            return;
+        }
+        String high=highVal.getText();
+        if(StringUtil.isEmpty(high)){
+            JOptionPane.showMessageDialog(this,"高值不能为空！");
+            return;
+        }
+        String discount=discountVal.getText();
+        if(StringUtil.isEmpty(discount)){
+            JOptionPane.showMessageDialog(this,"折扣不能为空！");
+            return;
+        }
+        MemberLevel memberLevel=new MemberLevel();
+        memberLevel.setLevel(level);
+        memberLevel.setLow(Integer.valueOf(low));
+        memberLevel.setHigh(Integer.valueOf(high));
+        memberLevel.setDiscount(Double.valueOf(discount));
+        MemberLevelService service=new MemberLevelService();
+        int i=service.save(memberLevel);
+        if(i>0){
+            DefaultTableModel model= (DefaultTableModel) table.getModel();
+            Object[][] objects=service.selectList();
+            model.setDataVector(objects,new String[] {"id","会员等级","最低金额","最高金额","折扣"});
+            JOptionPane.showMessageDialog(this,"保存成功！");
+            goBack(e);
+        }else{
+            JOptionPane.showMessageDialog(this,"保存失败！");
+        }
+
     }
 
     private void reset(ActionEvent e) {
@@ -155,10 +196,14 @@ public class MemberLevelAddUi extends JFrame {
     private JButton resetBtn;
     private JButton backBtn;
     private JLabel label10;
-    private JTable table;public JTable getTable() {
-    return table;
-}public void setTable(JTable table) {
-    this.table = table;
-}
+    private JTable table;
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

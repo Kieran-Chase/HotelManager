@@ -68,6 +68,21 @@ public class MemberLevelUi extends JFrame {
 
     private void update(ActionEvent e) {
         // TODO add your code here
+        int rowCount=table1.getSelectedRowCount();
+        if(rowCount==0){
+            JOptionPane.showMessageDialog(table1,"至少选择一行","提示信息",JOptionPane.WARNING_MESSAGE);
+        }else if(rowCount>1){
+            JOptionPane.showMessageDialog(table1,"只能修改一行数据","提示信息",JOptionPane.WARNING_MESSAGE);
+        }else{
+            int row=table1.getSelectedRow();
+            Object id=model.getValueAt(row,0);
+            MemberLevelService service=new MemberLevelService();
+            MemberLevel memberLevel=service.selectId(id);
+            MemberLevelUpdateUi updateUi=MemberLevelUpdateUi.getInstance();
+            updateUi.setMemberLevel(memberLevel);
+            updateUi.setTable(table1);
+            UiUtil.indent(UI,updateUi);
+        }
     }
 
     private void delete(ActionEvent e) {

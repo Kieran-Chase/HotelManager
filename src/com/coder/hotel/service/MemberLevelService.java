@@ -32,4 +32,12 @@ public class MemberLevelService {
     public int save(MemberLevel memberLevel) {
         return dao.save(memberLevel);
     }
+
+    public MemberLevel selectId(Object id) {
+        return dao.selectId(id);
+    }
+
+    public int update(MemberLevel memberLevel) {
+        return dao.update(memberLevel);
+    }
 }

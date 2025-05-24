@@ -1,12 +1,11 @@
 /*
- * Created by JFormDesigner on Thu May 22 15:42:13 CST 2025
+ * Created by JFormDesigner on Sat May 24 10:58:45 CST 2025
  */
 
 package com.coder.hotel.ui.memberlevel;
 
 import com.coder.hotel.entity.MemberLevel;
 import com.coder.hotel.service.MemberLevelService;
-import com.coder.hotel.util.StringUtil;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
@@ -17,68 +16,52 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author bulang
  */
-public class MemberLevelAddUi extends JFrame {
-    private MemberLevelAddUi() {
+public class MemberLevelUpdateUi extends JFrame {
+    private  MemberLevelUpdateUi() {
         initComponents();
     }
-    private static final MemberLevelAddUi UI=new MemberLevelAddUi();
-    public static MemberLevelAddUi getInstance(){
+    private static final MemberLevelUpdateUi UI=new MemberLevelUpdateUi();
+    public static MemberLevelUpdateUi getInstance(){
         return UI;
     }
 
     private void submit(ActionEvent e) {
         // TODO add your code here
         String level=levelVal.getText();
-        if(StringUtil.isEmpty(level)){
-            JOptionPane.showMessageDialog(this,"等级名称不能为空！");
-            return;
-        }
-        String low =lowVal.getText();
-        if(StringUtil.isEmpty(low)){
-            JOptionPane.showMessageDialog(this,"低值不能为空！");
-            return;
-        }
+        String low=lowVal.getText();
         String high=highVal.getText();
-        if(StringUtil.isEmpty(high)){
-            JOptionPane.showMessageDialog(this,"高值不能为空！");
-            return;
-        }
         String discount=discountVal.getText();
-        if(StringUtil.isEmpty(discount)){
-            JOptionPane.showMessageDialog(this,"折扣不能为空！");
-            return;
-        }
-        MemberLevel memberLevel=new MemberLevel();
         memberLevel.setLevel(level);
         memberLevel.setLow(Integer.valueOf(low));
         memberLevel.setHigh(Integer.valueOf(high));
         memberLevel.setDiscount(Double.valueOf(discount));
         MemberLevelService service=new MemberLevelService();
-        int i=service.save(memberLevel);
+        int i=service.update(memberLevel);
         if(i>0){
             DefaultTableModel model= (DefaultTableModel) table.getModel();
             Object[][] objects=service.selectList();
             model.setDataVector(objects,new String[] {"id","会员等级","最低金额","最高金额","折扣"});
-            JOptionPane.showMessageDialog(this,"保存成功！");
+            JOptionPane.showMessageDialog(this,"更新成功！");
             goBack(e);
         }else{
-            JOptionPane.showMessageDialog(this,"保存失败！");
+            JOptionPane.showMessageDialog(this,"更新失败！");
         }
-
     }
 
     private void reset(ActionEvent e) {
-        levelVal.setText("");
-        lowVal.setText("");
-        highVal.setText("");
-        discountVal.setText("");
         // TODO add your code here
+        init();
     }
 
     private void goBack(ActionEvent e) {
         // TODO add your code here
-        reset(e);
         UiUtil.indent(UI,MemberLevelUi.getInstance());
+    }
+    private void init(){
+        levelVal.setText(memberLevel.getLevel());
+        lowVal.setText(memberLevel.getHigh().toString());
+        highVal.setText(memberLevel.getLow().toString());
+        discountVal.setText(memberLevel.getDiscount().toString());
     }
 
     private void initComponents() {
@@ -101,6 +84,7 @@ public class MemberLevelAddUi extends JFrame {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
+        setTitle("\u9152\u5e97\u7ba1\u7406\u7cfb\u7edf");
         var contentPane = getContentPane();
         contentPane.setLayout(null);
 
@@ -173,7 +157,7 @@ public class MemberLevelAddUi extends JFrame {
         //---- label10 ----
         label10.setIcon(new ImageIcon(getClass().getResource("/img/bg.jpg")));
         contentPane.add(label10);
-        label10.setBounds(0, 0, label10.getPreferredSize().width, 500);
+        label10.setBounds(0, 0, 800, 500);
 
         contentPane.setPreferredSize(new Dimension(800, 530));
         pack();
@@ -197,6 +181,14 @@ public class MemberLevelAddUi extends JFrame {
     private JButton backBtn;
     private JLabel label10;
     private JTable table;
+    private MemberLevel memberLevel;
+    public MemberLevel getMemberLevel() {
+        return memberLevel;
+    }
+    public void setMemberLevel(MemberLevel memberLevel) {
+        this.memberLevel = memberLevel;
+        init();
+    }
     public JTable getTable() {
         return table;
     }

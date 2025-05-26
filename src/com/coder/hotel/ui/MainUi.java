@@ -4,6 +4,7 @@
 
 package com.coder.hotel.ui;
 
+import com.coder.hotel.ui.memberInfo.MemberInfoUi;
 import com.coder.hotel.ui.memberlevel.MemberLevelUi;
 import com.coder.hotel.ui.roomInfo.RoomInfoUi;
 import com.coder.hotel.ui.roomType.RoomTypeUi;
@@ -39,6 +40,9 @@ public class MainUi extends JFrame {
     }
     private void goMemberLevel(ActionEvent e){
         UiUtil.indent(UI, MemberLevelUi.getInstance());
+    }
+    private void goMemberInfo(ActionEvent e){
+        UiUtil.indent(UI, MemberInfoUi.getInstance());
     }
 
 
@@ -102,6 +106,7 @@ public class MainUi extends JFrame {
         button5.setText("\u4f1a\u5458\u4fe1\u606f");
         button5.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         button5.setIcon(new ImageIcon(getClass().getResource("/img/\u4f1a\u5458\u4fe1\u606f.png")));
+        button5.addActionListener(this::goMemberInfo);
         contentPane.add(button5);
         button5.setBounds(400, 230, 115, 115);
 

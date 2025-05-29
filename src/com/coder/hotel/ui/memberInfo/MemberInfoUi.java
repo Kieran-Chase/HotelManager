@@ -48,10 +48,22 @@ public class MemberInfoUi extends JFrame {
         // TODO add your code here
     }
 
-    private void privous(ActionEvent e) {
+    private void previous(ActionEvent e) {
         // TODO add your code here
     }
 
+    private void next(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void last(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void back(ActionEvent e) {
+        // TODO add your code here
+        UiUtil.indent(UI,MainUi.getFrame());
+    }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -82,7 +94,7 @@ public class MemberInfoUi extends JFrame {
         label11 = new JLabel();
         pages = new JLabel();
         firstBtn = new JButton();
-        privousBtn = new JButton();
+        previousBtn = new JButton();
         nextBtn = new JButton();
         lastBtn = new JButton();
         backBtn = new JButton();
@@ -225,40 +237,42 @@ public class MemberInfoUi extends JFrame {
 
         //---- firstBtn ----
         firstBtn.setText("\u9996\u9875");
-        firstBtn.addActionListener(e -> {
-			first(e);
-			first(e);
-		});
+        firstBtn.addActionListener(e -> first(e));
         contentPane.add(firstBtn);
         firstBtn.setBounds(390, 450, 80, 40);
 
-        //---- privousBtn ----
-        privousBtn.setText("\u4e0a\u4e00\u9875");
-        privousBtn.addActionListener(e -> privous(e));
-        contentPane.add(privousBtn);
-        privousBtn.setBounds(470, 450, 80, 40);
+        //---- previousBtn ----
+        previousBtn.setText("\u4e0a\u4e00\u9875");
+        previousBtn.addActionListener(e -> previous(e));
+        contentPane.add(previousBtn);
+        previousBtn.setBounds(470, 450, 80, 40);
 
         //---- nextBtn ----
         nextBtn.setText("\u4e0b\u4e00\u9875");
+        nextBtn.addActionListener(e -> next(e));
         contentPane.add(nextBtn);
         nextBtn.setBounds(550, 450, 80, 40);
 
         //---- lastBtn ----
         lastBtn.setText("\u5c3e\u9875");
+        lastBtn.addActionListener(e -> last(e));
         contentPane.add(lastBtn);
         lastBtn.setBounds(630, 450, 80, 40);
 
         //---- backBtn ----
         backBtn.setText("\u8fd4\u56de");
+        backBtn.addActionListener(e -> back(e));
         contentPane.add(backBtn);
         backBtn.setBounds(710, 450, 80, 40);
+
+        //---- label10 ----
+        label10.setIcon(new ImageIcon(getClass().getResource("/img/bg.jpg")));
+        contentPane.add(label10);
+        label10.setBounds(0, 0, label10.getPreferredSize().width, 500);
 
         contentPane.setPreferredSize(new Dimension(800, 530));
         pack();
         setLocationRelativeTo(getOwner());
-
-        //---- label10 ----
-        label10.setIcon(new ImageIcon(getClass().getResource("/img/bg.jpg")));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
@@ -290,7 +304,7 @@ public class MemberInfoUi extends JFrame {
     private JLabel label11;
     private JLabel pages;
     private JButton firstBtn;
-    private JButton privousBtn;
+    private JButton previousBtn;
     private JButton nextBtn;
     private JButton lastBtn;
     private JButton backBtn;

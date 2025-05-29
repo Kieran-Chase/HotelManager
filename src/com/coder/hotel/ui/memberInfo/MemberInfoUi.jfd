@@ -217,7 +217,6 @@ new FormModel {
 				name: "firstBtn"
 				"text": "首页"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "first", true ) )
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "first", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 390
 				"y": 450
@@ -225,9 +224,9 @@ new FormModel {
 				"height": 40
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "privousBtn"
+				name: "previousBtn"
 				"text": "上一页"
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "privous", true ) )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "previous", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 470
 				"y": 450
@@ -237,6 +236,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "nextBtn"
 				"text": "下一页"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "next", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 550
 				"y": 450
@@ -246,6 +246,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "lastBtn"
 				"text": "尾页"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "last", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 630
 				"y": 450
@@ -255,22 +256,24 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "backBtn"
 				"text": "返回"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "back", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 710
 				"y": 450
 				"width": 80
 				"height": 40
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label10"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/bg.jpg" )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"height": 500
+				"x": 0
+				"y": 0
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 20, 0 )
 			"size": new java.awt.Dimension( 800, 530 )
-		} )
-		add( new FormComponent( "javax.swing.JLabel" ) {
-			name: "label10"
-			"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/bg.jpg" )
-		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 30, 705 )
-			"size": new java.awt.Dimension( 800, 500 )
 		} )
 	}
 }

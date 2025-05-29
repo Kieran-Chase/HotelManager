@@ -16,6 +16,9 @@ public class MemberLevelService {
     static{
         dao=new MemberLevelDaoImpl();
     }
+    public List<MemberLevel> getList(){
+        return dao.selectList();
+    }
     public Object[][] selectList(){
         List<MemberLevel> memberLevels=dao.selectList();
         return dao.listToArray(memberLevels);

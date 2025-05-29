@@ -4,11 +4,15 @@
 
 package com.coder.hotel.ui.memberInfo;
 
+import com.coder.hotel.entity.MemberLevel;
+import com.coder.hotel.service.MemberLevelService;
 import com.coder.hotel.ui.MainUi;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 /**
@@ -74,10 +78,16 @@ public class MemberInfoUi extends JFrame {
         label4 = new JLabel();
         label5 = new JLabel();
         nameVal = new JTextField();
-        genderVal = new JComboBox();
+        genderVal = new JComboBox(new String []{"请选择","男","女"});
+
         lowAge = new JFormattedTextField();
         highAge = new JFormattedTextField();
         label6 = new JLabel();
+        //查询会员等级数据
+        MemberLevelService levelService=new MemberLevelService();
+        List<MemberLevel> list = levelService.getList();
+        Object[] objects = list.stream().map(m->m.getLevel()).collect(Collectors.toList()).toArray();
+
         levelVal = new JComboBox();
         queryBtn = new JButton();
         clearBtn = new JButton();

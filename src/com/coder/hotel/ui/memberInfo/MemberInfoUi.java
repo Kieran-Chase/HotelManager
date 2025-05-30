@@ -11,6 +11,7 @@ import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.invoke.VarHandle;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.*;
@@ -86,9 +87,10 @@ public class MemberInfoUi extends JFrame {
         //查询会员等级数据
         MemberLevelService levelService=new MemberLevelService();
         List<MemberLevel> list = levelService.getList();
-        Object[] objects = list.stream().map(m->m.getLevel()).collect(Collectors.toList()).toArray();
-
-        levelVal = new JComboBox();
+        List<String> memberLevels = list.stream().map(m->m.getLevel()).collect(Collectors.toList());
+        memberLevels.add(0,"请选择");
+        Object[] objects = memberLevels.toArray();
+        levelVal = new JComboBox(objects);
         queryBtn = new JButton();
         clearBtn = new JButton();
         toolBar1 = new JToolBar();

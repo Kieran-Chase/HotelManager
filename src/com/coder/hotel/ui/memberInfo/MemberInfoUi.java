@@ -67,6 +67,7 @@ public class MemberInfoUi extends JFrame {
 
     private void save(ActionEvent e) {
         // TODO add your code here
+        UiUtil.indent(UI,MemberInfoAddUi.getInstance());
     }
 
     private void delete(ActionEvent e) {

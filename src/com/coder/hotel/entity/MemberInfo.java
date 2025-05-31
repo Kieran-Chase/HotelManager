@@ -15,10 +15,6 @@ public class MemberInfo {
     private String idnum;
     private Date birth;
     private Integer age;
-    @TableField(exists=false)
-    private Integer lowAge;
-    @TableField(exists=false)
-    private Integer highAge;
     private String gender;
     private String tel;
     private Integer levelid;
@@ -94,21 +90,5 @@ public class MemberInfo {
 
     public void setLevel(String level) {
         this.level = level;
-    }
-
-    public Integer getLowAge() {
-        return lowAge;
-    }
-
-    public void setLowAge(Integer lowAge) {
-        this.lowAge = lowAge;
-    }
-
-    public Integer getHighAge() {
-        return highAge;
-    }
-
-    public void setHighAge(Integer highAge) {
-        this.highAge = highAge;
     }
 }

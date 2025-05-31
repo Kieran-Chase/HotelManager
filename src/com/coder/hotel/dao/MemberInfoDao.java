@@ -1,6 +1,7 @@
 package com.coder.hotel.dao;
 
 import com.coder.hotel.entity.MemberInfo;
+import com.coder.hotel.entity.MemberInfoQuery;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface MemberInfoDao {
     int update(MemberInfo info);
     MemberInfo selectId(Object id);
     List<MemberInfo> selectList();
-    List<MemberInfo> selectByExample(MemberInfo info,int page);
+    List<MemberInfo> selectByExample(MemberInfoQuery info, int page);
     Object[][] listToArray(List<MemberInfo> list);
-    Long getTotal(MemberInfo info);
+    Long getTotal(MemberInfoQuery info);
 }

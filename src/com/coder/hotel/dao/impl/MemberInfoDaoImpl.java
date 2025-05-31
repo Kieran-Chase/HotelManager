@@ -2,6 +2,7 @@ package com.coder.hotel.dao.impl;
 
 import com.coder.hotel.dao.MemberInfoDao;
 import com.coder.hotel.entity.MemberInfo;
+import com.coder.hotel.entity.MemberInfoQuery;
 import com.coder.hotel.entity.RoomInfo;
 import com.coder.hotel.util.DBUtil;
 import com.coder.hotel.util.StringUtil;
@@ -22,13 +23,13 @@ import java.util.Map;
 */
 public class MemberInfoDaoImpl extends BaseDao<MemberInfo> implements MemberInfoDao {
     @Override
-    public List<MemberInfo> selectByExample(MemberInfo info, int page) {
+    public List<MemberInfo> selectByExample(MemberInfoQuery info, int page) {
         int s=(page-1)*5;
         String sql="select * from memberinfo where 1=1";
         Map<String,Object> map=getArguments(info,sql);
         Object[] args= (Object[]) map.get("args");
         sql= (String) map.get("sql");
-        sql+=" ORDER BY r.id limit "+s+",5";
+        sql+=" ORDER BY id limit "+s+",5";
         QueryRunner runner=new QueryRunner(DBUtil.getDataSource());
         try {
             List<MemberInfo> query = runner.query(sql,
@@ -41,7 +42,7 @@ public class MemberInfoDaoImpl extends BaseDao<MemberInfo> implements MemberInfo
     }
 
     @Override
-    public Long getTotal(MemberInfo info) {
+    public Long getTotal(MemberInfoQuery info) {
         String sql="select count(id) from memberinfo r where 1=1";
         Map<String,Object> map=getArguments(info,sql);
         Object[] args= (Object[]) map.get("args");
@@ -54,7 +55,7 @@ public class MemberInfoDaoImpl extends BaseDao<MemberInfo> implements MemberInfo
         }
         return null;
     }
-    private Map<String,Object> getArguments(MemberInfo info, String sql){
+    private Map<String,Object> getArguments(MemberInfoQuery info, String sql){
         List<Object> arguments=new ArrayList<>();
         if (StringUtil.isNotEmpty(info.getName())){
             sql+=" and name like ?";

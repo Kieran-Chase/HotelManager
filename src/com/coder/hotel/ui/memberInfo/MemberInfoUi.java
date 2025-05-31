@@ -4,9 +4,18 @@
 
 package com.coder.hotel.ui.memberInfo;
 
+import com.coder.hotel.entity.MemberInfo;
+import com.coder.hotel.entity.MemberInfoQuery;
 import com.coder.hotel.entity.MemberLevel;
+import com.coder.hotel.entity.RoomInfo;
+import com.coder.hotel.service.MemberInfoService;
 import com.coder.hotel.service.MemberLevelService;
+import com.coder.hotel.service.RoomInfoService;
 import com.coder.hotel.ui.MainUi;
+import com.coder.hotel.ui.roomInfo.RoomInfoUi;
+import com.coder.hotel.util.Page;
+import com.coder.hotel.util.StringUtil;
+import com.coder.hotel.util.TableStyle;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
@@ -15,6 +24,7 @@ import java.lang.invoke.VarHandle;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
@@ -30,11 +40,29 @@ public class MemberInfoUi extends JFrame {
 
 
     private void query(ActionEvent e) {
-        // TODO add your code here
+        info =new MemberInfoQuery();
+        info.setName(nameVal.getText());
+        info.setGender(genderVal.getSelectedItem().toString());
+        String lowAgeText=lowAge.getText();
+        info.setLowAge(Integer.valueOf(StringUtil.isEmpty(lowAgeText)?"0":lowAgeText));
+        String highAgeText=highAge.getText();
+        info.setHighAge(Integer.valueOf(StringUtil.isEmpty(highAgeText)?"0":highAgeText));
+        info.setLevel(levelVal.getSelectedItem().toString());
+
+        Page pageInfo=service.getPage(info,1);
+        page(pageInfo,1,info);
+        total.setText(pageInfo.getTotal().toString());
+        pages.setText(pageInfo.getPages().toString());
     }
 
     private void clear(ActionEvent e) {
-        // TODO add your code here
+        init();
+        table1.updateUI();
+        nameVal.setText("");
+        genderVal.setSelectedIndex(0);
+        lowAge.setText("");
+        highAge.setText("");
+        levelVal.setSelectedIndex(0);
     }
 
     private void save(ActionEvent e) {
@@ -42,32 +70,126 @@ public class MemberInfoUi extends JFrame {
     }
 
     private void delete(ActionEvent e) {
-        // TODO add your code here
+        //获取用户选择的表的行数
+        int rowCount=table1.getSelectedRowCount();
+        //判断用户是否选择了表格中的数据
+        if(rowCount==0){
+            JOptionPane.showMessageDialog(table1,"请至少选择一行");
+        }else{
+            int y=JOptionPane.showConfirmDialog(table1,"确定要删除数据吗？","提示信息",JOptionPane.YES_NO_OPTION);
+            //y==0表示用户点击了确定
+            if(y==0){
+                int [] selectedRows=table1.getSelectedRows();
+                //删除数据库表中的数据
+                for (int selectedRow : selectedRows) {
+                    Object id=model.getValueAt(selectedRow,0);
+                    service.deleteId(id);
+                }
+                //清除表格中的数据
+                for(int i=selectedRows.length-1;i>=0;i--){
+                    int x=table1.getSelectedRow();
+                    model.removeRow(x);
+                }
+            }
+
+        }
+        //table1.updateUI();//刷新界面
+        Page pageInfo=service.getPage(info,1);
+        total.setText(pageInfo.getTotal().toString());
+        pages.setText(pageInfo.getPages().toString());
+        first(e);
     }
 
     private void update(ActionEvent e) {
         // TODO add your code here
     }
+    private void page(Page pageInfo, int page, MemberInfoQuery info){
+        data=service.selectExample(info,page);
+        model.setDataVector(data,column);
+        currentPage.setText(pageInfo.getPage().toString());
+        table1.updateUI();
+    }
 
     private void first(ActionEvent e) {
-        // TODO add your code here
+        Page pageInfo = service.getPage(info,1);
+        page(pageInfo, 1, info);
     }
 
     private void previous(ActionEvent e) {
-        // TODO add your code here
-    }
+        Page pageInfo = service.getPage(info,1);
+        String c = currentPage.getText();//获取当前页码
+        if (!c.equals("1")) {
+            pageInfo.setPage(Long.parseLong(c) - 1);
+            long p = pageInfo.getPage();
+            page(pageInfo, (int) p, info);
+        }    }
 
     private void next(ActionEvent e) {
-        // TODO add your code here
+        Page pageInfo = service.getPage(info,1);
+        //获取最后一页
+        Long lastPage = pageInfo.getPages();
+        String c = currentPage.getText();//获取当前页码
+        Long currentPage = Long.parseLong(c);
+        if (currentPage < lastPage) {
+            pageInfo.setPage(currentPage + 1);
+            long p = pageInfo.getPage();
+            page(pageInfo, (int) p, info);
+        }
     }
 
     private void last(ActionEvent e) {
-        // TODO add your code here
+        Page pageInfo = service.getPage(info,1);
+        pageInfo.setPage(pageInfo.getPages());
+        long p = pageInfo.getPage();
+        page(pageInfo, (int) p, info);
     }
 
     private void back(ActionEvent e) {
         // TODO add your code here
+        first(e);
         UiUtil.indent(UI,MainUi.getFrame());
+    }
+
+    class CustomModel extends DefaultTableModel {
+        public CustomModel(Object [][] data,Object[]column){
+            super(data,column);
+        }
+        //禁止jtable可编辑
+        @Override
+        public boolean isCellEditable(int row,int column){
+            return false;
+        }
+    }
+
+    private void init(){
+        //初始化jtable数据
+        column =new String[]{"id","姓名","身份证号","出生日期","年龄","性别","电话","等级id","等级"};
+        service=new MemberInfoService();
+        info=new MemberInfoQuery();
+        info.setName("");
+        info.setGender("请选择");
+        info.setLowAge(0);
+        info.setHighAge(0);
+        info.setLevel("请选择");
+        data=service.selectExample(info,1);
+        /*for (Object[] datum : data) {
+            for (Object o : datum) {
+                System.out.print(o+",");
+            }
+            System.out.println();
+        }*/
+        model=new CustomModel(data,column);
+        table1.setModel(model);
+        TableStyle.setStyle(table1);
+
+        //获取页码相关信息
+        Page pageInfo=service.getPage(info,1);
+        total.setText(pageInfo.getTotal().toString());
+        //当前页
+        currentPage.setText(pageInfo.getPage().toString());
+        pages.setText(pageInfo.getPages().toString());
+
+        table1.updateUI();
     }
 
     private void initComponents() {
@@ -87,7 +209,7 @@ public class MemberInfoUi extends JFrame {
         //查询会员等级数据
         MemberLevelService levelService=new MemberLevelService();
         List<MemberLevel> list = levelService.getList();
-        List<String> memberLevels = list.stream().map(m->m.getLevel()).collect(Collectors.toList());
+        List<String> memberLevels = list.stream().map(MemberLevel::getLevel).collect(Collectors.toList());
         memberLevels.add(0,"请选择");
         Object[] objects = memberLevels.toArray();
         levelVal = new JComboBox(objects);
@@ -111,6 +233,8 @@ public class MemberInfoUi extends JFrame {
         lastBtn = new JButton();
         backBtn = new JButton();
         label10 = new JLabel();
+
+        init();
 
         //======== this ========
         setTitle("\u9152\u5e97\u7ba1\u7406\u7cfb\u7edf");
@@ -219,7 +343,7 @@ public class MemberInfoUi extends JFrame {
 
         //---- total ----
         total.setForeground(Color.white);
-        total.setText("10");
+        //total.setText("10");
         contentPane.add(total);
         total.setBounds(65, 465, 30, total.getPreferredSize().height);
 
@@ -231,7 +355,7 @@ public class MemberInfoUi extends JFrame {
 
         //---- currentPage ----
         currentPage.setForeground(Color.white);
-        currentPage.setText("1");
+        //currentPage.setText("1");
         contentPane.add(currentPage);
         currentPage.setBounds(140, 465, 30, currentPage.getPreferredSize().height);
 
@@ -243,7 +367,7 @@ public class MemberInfoUi extends JFrame {
 
         //---- pages ----
         pages.setForeground(Color.white);
-        pages.setText("1");
+        //pages.setText("1");
         contentPane.add(pages);
         pages.setBounds(215, 465, 30, pages.getPreferredSize().height);
 
@@ -321,5 +445,10 @@ public class MemberInfoUi extends JFrame {
     private JButton lastBtn;
     private JButton backBtn;
     private JLabel label10;
+    private String[] column;
+    private MemberInfoService service;
+    private Object[][] data;
+    private MemberInfoQuery info;
+    private CustomModel model;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

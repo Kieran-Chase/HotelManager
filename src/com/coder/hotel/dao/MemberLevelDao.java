@@ -17,4 +17,5 @@ public interface MemberLevelDao {
     List<MemberLevel> selectList();
     List<MemberLevel> selectByExample(MemberLevel level);
     Object[][] listToArray(List<MemberLevel> list);
+    Integer selectByLevel(String level);
 }

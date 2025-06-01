@@ -155,7 +155,7 @@ new FormModel {
 					"height": 35
 				} )
 				add( new FormComponent( "javax.swing.JRadioButton" ) {
-					name: "radioButton1"
+					name: "manBtn"
 					"text": "男"
 					"background": &Color0 new java.awt.Color( 255, 255, 255, 255 )
 					"enabled": false
@@ -164,7 +164,7 @@ new FormModel {
 					"y": 330
 				} )
 				add( new FormComponent( "javax.swing.JRadioButton" ) {
-					name: "radioButton2"
+					name: "womanBtn"
 					"text": "女"
 					"background": #Color0
 					"enabled": false

@@ -6,6 +6,7 @@ import com.coder.hotel.util.DBUtil;
 import com.coder.hotel.util.StringUtil;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,6 +37,18 @@ public class MemberLevelDaoImpl extends BaseDao<MemberLevel> implements MemberLe
         QueryRunner queryRunner=new QueryRunner(DBUtil.getDataSource());
         try {
             return queryRunner.query(sql,new BeanListHandler<MemberLevel>(MemberLevel.class),args.toArray());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer selectByLevel(String level) {
+        String sql="select id from memberLevel where level=?";
+        QueryRunner queryRunner=new QueryRunner(DBUtil.getDataSource());
+        try {
+            return queryRunner.query(sql,new ScalarHandler<Integer>(),level);
         } catch (SQLException e) {
             e.printStackTrace();
         }

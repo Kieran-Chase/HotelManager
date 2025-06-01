@@ -67,7 +67,11 @@ public class MemberInfoUi extends JFrame {
 
     private void save(ActionEvent e) {
         // TODO add your code here
-        UiUtil.indent(UI,MemberInfoAddUi.getInstance());
+        MemberInfoAddUi infoAddUi = MemberInfoAddUi.getInstance();
+        infoAddUi.setTable(table1);
+        infoAddUi.setTotal(total);
+        infoAddUi.setPages(pages);
+        UiUtil.indent(UI,infoAddUi);
     }
 
     private void delete(ActionEvent e) {

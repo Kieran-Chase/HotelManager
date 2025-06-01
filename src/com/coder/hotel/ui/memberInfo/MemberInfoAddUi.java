@@ -5,14 +5,26 @@
 package com.coder.hotel.ui.memberInfo;
 
 import com.coder.hotel.entity.MemberInfo;
+import com.coder.hotel.entity.MemberInfoQuery;
 import com.coder.hotel.entity.MemberLevel;
+import com.coder.hotel.entity.RoomInfo;
+import com.coder.hotel.service.MemberInfoService;
 import com.coder.hotel.service.MemberLevelService;
+import com.coder.hotel.util.Page;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.reflect.Member;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
@@ -28,15 +40,95 @@ public class MemberInfoAddUi extends JFrame {
 
     private void submit(ActionEvent e) {
         // TODO add your code here
+        String name=nameVal.getText();
+        String level=levelVal.getSelectedItem().toString();
+        String idnum=idnumVal.getText();
+        String tel=telVal.getText();
+        String birth=birthVal.getText();
+        String age=ageVal.getText();
+        String gender;
+        if(manBtn.isSelected()){
+            gender="男";
+        }else{
+            gender="女";
+        }
+        MemberInfo info=new MemberInfo();
+        info.setName(name);
+        info.setIdnum(idnum);
+        info.setBirth(Date.valueOf(birth));
+        info.setAge(Integer.valueOf(age));
+        info.setGender(gender);
+        info.setTel(tel);
+        //根据level查询到对应的id
+        Integer levelid=levelService.selectByLevel(level);
+        info.setLevelid(levelid);
+        info.setLevel(level);
+        MemberInfoService service=new MemberInfoService();
+        int i = service.save(info);
+        if(i>0){
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            //重新查询一下数据库
+            MemberInfoQuery infoQuery=new MemberInfoQuery();
+            infoQuery.setName("");
+            infoQuery.setGender("请选择");
+            infoQuery.setLowAge(0);
+            infoQuery.setHighAge(0);
+            infoQuery.setLevel("请选择");
+            Object[][] objects=service.selectExample(infoQuery,1);
+            String [] column =new String[]{"id","姓名","身份证号","出生日期","年龄","性别","电话","等级id","等级"};
+            model.setDataVector(objects,column);
+
+            //获取页码相关信息
+            Page pageInfo=service.getPage(infoQuery,1);
+            total.setText(pageInfo.getTotal().toString());
+            //当前页
+            pages.setText(pageInfo.getPages().toString());
+            table.updateUI();
+            JOptionPane.showMessageDialog(this,"保存成功");
+            goBack(e);
+        }
     }
 
     private void reset(ActionEvent e) {
         // TODO add your code here
+        nameVal.setText("");
+        levelVal.setSelectedIndex(0);
+        idnumVal.setText("");
+        telVal.setText("");
+        birthVal.setText("");
+        ageVal.setText("");
+        group.clearSelection();//取消所有选项
     }
 
     private void goBack(ActionEvent e) {
         // TODO add your code here
+        reset(e);
         UiUtil.indent(UI,MemberInfoUi.getInstance());
+    }
+
+    private void idnumValFocusLost(FocusEvent e) {
+        String text = idnumVal.getText();
+        String regx="^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+        boolean b = Pattern.matches(regx,text);
+        if(!b){
+            JOptionPane.showMessageDialog(this,"身份证录入错误");
+            return;
+        }
+        //112233198010122564
+        String dataVal=text.substring(6,14);
+        LocalDate localDate=LocalDate.parse(dataVal, DateTimeFormatter.ofPattern("yyyyMMdd"));
+        Date date= Date.valueOf(localDate);
+        birthVal.setText(date.toString());
+        LocalDate now=LocalDate.now();
+        long age= ChronoUnit.YEARS.between(localDate,now);
+        ageVal.setText(String.valueOf(age));
+        String c=text.charAt(16)+"";
+        int i=Integer.parseInt(c);
+        if(i%2==0){
+            womanBtn.setSelected(true);
+        }else{
+            manBtn.setSelected(true);
+        }
     }
 
     private void initComponents() {
@@ -50,15 +142,21 @@ public class MemberInfoAddUi extends JFrame {
         label12 = new JLabel();
         label13 = new JLabel();
         nameVal = new JTextField();
-
-        levelVal = new JComboBox();
+        levelService=new MemberLevelService();
+        List<MemberLevel> list = levelService.getList();
+        List<String> levels = list.stream().map(MemberLevel::getLevel).collect(Collectors.toList());
+        levels.add(0,"--请选择--");
+        levelVal = new JComboBox(levels.toArray());
         idnumVal = new JTextField();
         telVal = new JTextField();
         birthVal = new JTextField();
         ageVal = new JTextField();
         label14 = new JLabel();
-        radioButton1 = new JRadioButton();
-        radioButton2 = new JRadioButton();
+        manBtn = new JRadioButton();
+        womanBtn = new JRadioButton();
+        group =new ButtonGroup();
+        group.add(manBtn);
+        group.add(womanBtn);
         okBtn = new JButton();
         resetBtn = new JButton();
         backBtn = new JButton();
@@ -131,6 +229,12 @@ public class MemberInfoAddUi extends JFrame {
             levelVal.setBounds(170, 77, 405, 40);
             panel1.add(idnumVal);
             idnumVal.setBounds(170, 127, 405, 40);
+            idnumVal.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusLost(FocusEvent e){
+                    idnumValFocusLost(e);
+                }
+            });
             panel1.add(telVal);
             telVal.setBounds(170, 177, 405, 40);
 
@@ -151,19 +255,19 @@ public class MemberInfoAddUi extends JFrame {
             panel1.add(label14);
             label14.setBounds(60, 325, 95, 35);
 
-            //---- radioButton1 ----
-            radioButton1.setText("\u7537");
-            radioButton1.setBackground(Color.white);
-            radioButton1.setEnabled(false);
-            panel1.add(radioButton1);
-            radioButton1.setBounds(new Rectangle(new Point(170, 330), radioButton1.getPreferredSize()));
+            //---- manBtn ----
+            manBtn.setText("\u7537");
+            manBtn.setBackground(Color.white);
+            manBtn.setEnabled(false);
+            panel1.add(manBtn);
+            manBtn.setBounds(new Rectangle(new Point(170, 330), manBtn.getPreferredSize()));
 
-            //---- radioButton2 ----
-            radioButton2.setText("\u5973");
-            radioButton2.setBackground(Color.white);
-            radioButton2.setEnabled(false);
-            panel1.add(radioButton2);
-            radioButton2.setBounds(new Rectangle(new Point(245, 330), radioButton2.getPreferredSize()));
+            //---- womanBtn ----
+            womanBtn.setText("\u5973");
+            womanBtn.setBackground(Color.white);
+            womanBtn.setEnabled(false);
+            panel1.add(womanBtn);
+            womanBtn.setBounds(new Rectangle(new Point(245, 330), womanBtn.getPreferredSize()));
         }
         contentPane.add(panel1);
         panel1.setBounds(55, 60, 680, 370);
@@ -213,12 +317,36 @@ public class MemberInfoAddUi extends JFrame {
     private JTextField birthVal;
     private JTextField ageVal;
     private JLabel label14;
-    private JRadioButton radioButton1;
-    private JRadioButton radioButton2;
+    private JRadioButton manBtn;
+    private JRadioButton womanBtn;
     private JButton okBtn;
     private JButton resetBtn;
     private JButton backBtn;
     private JLabel label15;
-    private MemberLevelService  levelService;
+    private MemberLevelService levelService;
+    private JTable table;
+    private JLabel total;
+    private JLabel pages;
+    private ButtonGroup group;
+
+    public JTable getTable() {
+        return table;
+    }
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+    public JLabel getTotal() {
+        return total;
+    }
+    public void setTotal(JLabel total) {
+        this.total = total;
+    }
+    public JLabel getPages() {
+        return pages;
+    }
+    public void setPages(JLabel pages) {
+        this.pages = pages;
+    }
+
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

@@ -43,4 +43,8 @@ public class MemberLevelService {
     public int update(MemberLevel memberLevel) {
         return dao.update(memberLevel);
     }
+
+    public Integer selectByLevel(String level) {
+        return dao.selectByLevel(level);
+    }
 }

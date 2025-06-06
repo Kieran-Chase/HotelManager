@@ -107,6 +107,23 @@ public class MemberInfoUi extends JFrame {
 
     private void update(ActionEvent e) {
         // TODO add your code here
+        int rowCount = table1.getSelectedRowCount();
+        if (rowCount==0){
+            JOptionPane.showMessageDialog(table1, "请至少选择一行",
+                    "提示信息", JOptionPane.WARNING_MESSAGE);
+        }else if (rowCount>1){
+            JOptionPane.showMessageDialog(table1, "只能修改一行数据",
+                    "提示信息", JOptionPane.WARNING_MESSAGE);
+        }else {
+            int row = table1.getSelectedRow();
+            Object id = table1.getValueAt(row, 0);
+            MemberInfoService service=new MemberInfoService();
+            MemberInfo memberInfo = service.selectId(id);
+            MemberInfoUpdateUi updateUi=MemberInfoUpdateUi.getInstance();
+            updateUi.setMemberInfo(memberInfo);
+            updateUi.setTable(table1);
+            UiUtil.indent(UI,updateUi);
+        }
     }
     private void page(Page pageInfo, int page, MemberInfoQuery info){
         data=service.selectExample(info,page);

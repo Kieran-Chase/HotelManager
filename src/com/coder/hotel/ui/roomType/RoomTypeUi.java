@@ -140,6 +140,7 @@ public class RoomTypeUi extends JFrame {
             values[index][5]=roomType.getRemark();
             index++;
         }*/
+        //获取表格数据
         column= new String []{"id","类型","价格","押金","床位数","备注"};
         //放入model中
         model=new CustomModel(objects,column);

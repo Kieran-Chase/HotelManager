@@ -4,6 +4,7 @@
 
 package com.coder.hotel.ui;
 
+import com.coder.hotel.ui.goodstype.GoodsTypeUi;
 import com.coder.hotel.ui.memberInfo.MemberInfoUi;
 import com.coder.hotel.ui.memberlevel.MemberLevelUi;
 import com.coder.hotel.ui.roomInfo.RoomInfoUi;
@@ -43,6 +44,9 @@ public class MainUi extends JFrame {
     }
     private void goMemberInfo(ActionEvent e){
         UiUtil.indent(UI, MemberInfoUi.getInstance());
+    }
+    private void goGoodType(ActionEvent e){
+        UiUtil.indent(UI, GoodsTypeUi.getInstance());
     }
 
 
@@ -153,10 +157,11 @@ public class MainUi extends JFrame {
         button11.setBounds(515, 115, 115, 115);
 
         //---- button12 ----
-        button12.setText("\u4f4f\u5bbf\u7c7b\u578b");
+        button12.setText("\u5546\u54c1\u7c7b\u522b");
         button12.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
         button12.setIcon(new ImageIcon(getClass().getResource("/img/\u5206\u671f\uff0d\u4f4f\u5bbf\u7c7b\u578b.png")));
         contentPane.add(button12);
+        button12.addActionListener(this::goGoodType);
         button12.setBounds(515, 230, 115, 115);
 
         //---- label2 ----

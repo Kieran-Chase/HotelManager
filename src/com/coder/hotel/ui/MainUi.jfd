@@ -134,7 +134,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button12"
-				"text": "住宿类型"
+				"text": "商品类别"
 				"font": #Font0
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/分期－住宿类型.png" )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {

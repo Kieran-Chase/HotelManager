@@ -5,14 +5,25 @@
 package com.coder.hotel.ui.memberInfo;
 
 import com.coder.hotel.entity.MemberInfo;
+import com.coder.hotel.entity.MemberInfoQuery;
 import com.coder.hotel.entity.MemberLevel;
 import com.coder.hotel.entity.RoomType;
+import com.coder.hotel.service.MemberInfoService;
 import com.coder.hotel.service.MemberLevelService;
+import com.coder.hotel.util.Page;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author bulang
@@ -28,14 +39,78 @@ public class MemberInfoUpdateUi extends JFrame {
 
     private void idnumValFocusLost(FocusEvent e){
         // TODO add your code here
+        String text = idnumVal.getText();
+        String regx="^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+        boolean b = Pattern.matches(regx,text);
+        if(!b){
+            JOptionPane.showMessageDialog(this,"身份证录入错误");
+            return;
+        }
+        //112233198010122564
+        String dataVal=text.substring(6,14);
+        LocalDate localDate=LocalDate.parse(dataVal, DateTimeFormatter.ofPattern("yyyyMMdd"));
+        Date date= Date.valueOf(localDate);
+        birthVal.setText(date.toString());
+        LocalDate now=LocalDate.now();
+        long age= ChronoUnit.YEARS.between(localDate,now);
+        ageVal.setText(String.valueOf(age));
+        String c=text.charAt(16)+"";
+        int i=Integer.parseInt(c);
+        if(i%2==0){
+            womanBtn.setSelected(true);
+        }else{
+            manBtn.setSelected(true);
+        }
     }
 
     private void submit(ActionEvent e) {
         // TODO add your code here
+        String name=nameVal.getText();
+        String level=levelVal.getSelectedItem().toString();
+        String idnum=idnumVal.getText();
+        String tel=telVal.getText();
+        String birth=birthVal.getText();
+        String age=ageVal.getText();
+        String gender;
+        if(manBtn.isSelected()){
+            gender="男";
+        }else{
+            gender="女";
+        }
+        memberInfo.setName(name);
+        memberInfo.setIdnum(idnum);
+        memberInfo.setBirth(Date.valueOf(birth));
+        memberInfo.setAge(Integer.valueOf(age));
+        memberInfo.setGender(gender);
+        memberInfo.setTel(tel);
+        //根据level查询到对应的id
+        levelService =new MemberLevelService();
+        Integer levelid=levelService.selectByLevel(level);
+        memberInfo.setLevelid(levelid);
+        memberInfo.setLevel(level);
+        MemberInfoService service=new MemberInfoService();
+        int i=service.update(memberInfo);
+        if(i>0){
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            //重新查询一下数据库
+            MemberInfoQuery infoQuery=new MemberInfoQuery();
+            infoQuery.setName("");
+            infoQuery.setGender("请选择");
+            infoQuery.setLowAge(0);
+            infoQuery.setHighAge(0);
+            infoQuery.setLevel("请选择");
+            Object[][] objects=service.selectExample(infoQuery,1);
+            String [] column =new String[]{"id","姓名","身份证号","出生日期","年龄","性别","电话","等级id","等级"};
+            model.setDataVector(objects,column);
+            table.updateUI();
+            JOptionPane.showMessageDialog(this,"修改成功");
+            goBack(e);
+        }
     }
 
     private void reset(ActionEvent e) {
         // TODO add your code here
+        init();
     }
 
     private void goBack(ActionEvent e) {
@@ -71,10 +146,11 @@ public class MemberInfoUpdateUi extends JFrame {
         label12 = new JLabel();
         label13 = new JLabel();
         nameVal = new JTextField();
-        /*MemberLevelService levelService=new MemberLevelService();
-        List<MemberLevel> list=levelService.getList();
-        */
-        levelVal = new JComboBox();
+        MemberLevelService levelService=new MemberLevelService();
+        List<MemberLevel> list = levelService.getList();
+        List<String> collect = list.stream().map(MemberLevel::getLevel).collect(Collectors.toList());
+        collect.add(0,"---请选择---");
+        levelVal = new JComboBox(collect.toArray());
         idnumVal = new JTextField();
         telVal = new JTextField();
         birthVal = new JTextField();
@@ -254,6 +330,7 @@ public class MemberInfoUpdateUi extends JFrame {
     private MemberInfo memberInfo;
     private JTable table;
     private ButtonGroup group;
+    private MemberLevelService levelService;
 
     public MemberInfo getMemberInfo() {
         return memberInfo;

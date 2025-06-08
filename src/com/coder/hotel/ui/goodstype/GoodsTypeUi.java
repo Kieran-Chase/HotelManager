@@ -4,6 +4,7 @@
 
 package com.coder.hotel.ui.goodstype;
 
+import com.coder.hotel.entity.GoodsType;
 import com.coder.hotel.service.GoodsTypeService;
 import com.coder.hotel.ui.MainUi;
 import com.coder.hotel.util.CustomModel;
@@ -46,6 +47,9 @@ public class GoodsTypeUi extends JFrame {
 
     private void save(ActionEvent e) {
         // TODO add your code here
+        GoodsTypeAddUi addUi=GoodsTypeAddUi.getInstance();
+        addUi.setTable(table1);
+        UiUtil.indent(UI,addUi);
     }
 
     private void delete(ActionEvent e) {
@@ -54,6 +58,25 @@ public class GoodsTypeUi extends JFrame {
 
     private void update(ActionEvent e) {
         // TODO add your code here
+        //用户选择的行数
+        int rowCount = table1.getSelectedRowCount();
+        if (rowCount==0){
+            JOptionPane.showMessageDialog(table1, "请至少选择一行",
+                    "提示信息", JOptionPane.WARNING_MESSAGE);
+        }else if (rowCount>1){
+            JOptionPane.showMessageDialog(table1, "只能修改一行数据",
+                    "提示信息", JOptionPane.WARNING_MESSAGE);
+        }else {
+            int row = table1.getSelectedRow();
+            Object id = table1.getValueAt(row, 0);
+            GoodsTypeService service=new GoodsTypeService();
+            GoodsType goodsType = service.selectId(id);
+            GoodsTypeUpdateUi typeUpdateUi = GoodsTypeUpdateUi.getInstance();
+            typeUpdateUi.setGoodsType(goodsType);
+            typeUpdateUi.setTable(table1);
+            UiUtil.indent(UI, typeUpdateUi);
+        }
+
     }
 
     private void goBack(ActionEvent e) {

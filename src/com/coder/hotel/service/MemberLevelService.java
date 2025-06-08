@@ -11,7 +11,7 @@ import java.util.List;
  * @project HotelManager
  * @date 2025/5/19
  */
-public class MemberLevelService {
+public class MemberLevelService extends BaseService{
     private static MemberLevelDao dao;
     static{
         dao=new MemberLevelDaoImpl();

@@ -13,10 +13,7 @@ import com.coder.hotel.service.MemberLevelService;
 import com.coder.hotel.service.RoomInfoService;
 import com.coder.hotel.ui.MainUi;
 import com.coder.hotel.ui.roomInfo.RoomInfoUi;
-import com.coder.hotel.util.Page;
-import com.coder.hotel.util.StringUtil;
-import com.coder.hotel.util.TableStyle;
-import com.coder.hotel.util.UiUtil;
+import com.coder.hotel.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -75,30 +72,7 @@ public class MemberInfoUi extends JFrame {
     }
 
     private void delete(ActionEvent e) {
-        //获取用户选择的表的行数
-        int rowCount=table1.getSelectedRowCount();
-        //判断用户是否选择了表格中的数据
-        if(rowCount==0){
-            JOptionPane.showMessageDialog(table1,"请至少选择一行");
-        }else{
-            int y=JOptionPane.showConfirmDialog(table1,"确定要删除数据吗？","提示信息",JOptionPane.YES_NO_OPTION);
-            //y==0表示用户点击了确定
-            if(y==0){
-                int [] selectedRows=table1.getSelectedRows();
-                //删除数据库表中的数据
-                for (int selectedRow : selectedRows) {
-                    Object id=model.getValueAt(selectedRow,0);
-                    service.deleteId(id);
-                }
-                //清除表格中的数据
-                for(int i=selectedRows.length-1;i>=0;i--){
-                    int x=table1.getSelectedRow();
-                    model.removeRow(x);
-                }
-            }
-
-        }
-        //table1.updateUI();//刷新界面
+        TableUtil.delete(table1,model,service);
         Page pageInfo=service.getPage(info,1);
         total.setText(pageInfo.getTotal().toString());
         pages.setText(pageInfo.getPages().toString());
@@ -170,17 +144,6 @@ public class MemberInfoUi extends JFrame {
         // TODO add your code here
         first(e);
         UiUtil.indent(UI,MainUi.getFrame());
-    }
-
-    class CustomModel extends DefaultTableModel {
-        public CustomModel(Object [][] data,Object[]column){
-            super(data,column);
-        }
-        //禁止jtable可编辑
-        @Override
-        public boolean isCellEditable(int row,int column){
-            return false;
-        }
     }
 
     private void init(){

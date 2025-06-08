@@ -6,7 +6,9 @@ package com.coder.hotel.ui.goodstype;
 
 import com.coder.hotel.service.GoodsTypeService;
 import com.coder.hotel.ui.MainUi;
+import com.coder.hotel.util.CustomModel;
 import com.coder.hotel.util.TableStyle;
+import com.coder.hotel.util.TableUtil;
 import com.coder.hotel.util.UiUtil;
 
 import java.awt.*;
@@ -28,10 +30,18 @@ public class GoodsTypeUi extends JFrame {
 
     private void query(ActionEvent e) {
         // TODO add your code here
+        String typeName=typeNameVal.getText();
+        Object[][] objects = service.selectByType(typeName);
+        model.setDataVector(objects,column);
+        table1.updateUI();
+        typeNameVal.setText("");
     }
 
     private void clear(ActionEvent e) {
         // TODO add your code here
+        objects = service.selectList();
+        model.setDataVector(objects,column);
+        table1.updateUI();
     }
 
     private void save(ActionEvent e) {
@@ -39,7 +49,7 @@ public class GoodsTypeUi extends JFrame {
     }
 
     private void delete(ActionEvent e) {
-        // TODO add your code here
+        TableUtil.delete(table1,model,service);
     }
 
     private void update(ActionEvent e) {
@@ -49,16 +59,6 @@ public class GoodsTypeUi extends JFrame {
     private void goBack(ActionEvent e) {
         // TODO add your code here
         UiUtil.indent(UI, MainUi.getFrame());
-    }
-    class CustomModel extends DefaultTableModel {
-        public CustomModel(Object [][] data,Object[]column){
-            super(data,column);
-        }
-        //禁止jtable可编辑
-        @Override
-        public boolean isCellEditable(int row,int column){
-            return false;
-        }
     }
 
     private void initComponents() {

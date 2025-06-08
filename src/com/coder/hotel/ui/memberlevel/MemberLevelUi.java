@@ -8,9 +8,7 @@ import com.coder.hotel.entity.MemberLevel;
 import com.coder.hotel.service.MemberLevelService;
 import com.coder.hotel.service.RoomTypeService;
 import com.coder.hotel.ui.MainUi;
-import com.coder.hotel.util.StringUtil;
-import com.coder.hotel.util.TableStyle;
-import com.coder.hotel.util.UiUtil;
+import com.coder.hotel.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -27,12 +25,6 @@ public class MemberLevelUi extends JFrame {
     private static MemberLevelUi UI=new MemberLevelUi();
     public static MemberLevelUi getInstance(){
         return UI;
-    }
-    class CustomModel extends DefaultTableModel{
-        public CustomModel(Object[][]data,Object[] column){super(data,column);}
-        //禁止jtable可编辑
-        @Override
-        public boolean isCellEditable(int row,int column){return false;}
     }
 
     private void query(ActionEvent e) {
@@ -86,33 +78,7 @@ public class MemberLevelUi extends JFrame {
     }
 
     private void delete(ActionEvent e) {
-        // TODO add your code here
-        //获取用户选择的表的行数
-        int rowCount=table1.getSelectedRowCount();
-        //判断用户是否选择了表格中的数据
-        if(rowCount==0){
-            JOptionPane.showMessageDialog(table1,"请至少选择一行");
-        }else{
-            int y=JOptionPane.showConfirmDialog(table1,"确定要删除数据吗？","提示信息",JOptionPane.YES_NO_OPTION);
-            //y==0表示用户点击了确定
-            if(y==0){
-                int [] selectedRows=table1.getSelectedRows();
-                //删除数据库表中的数据
-                for (int selectedRow : selectedRows) {
-                    Object id=model.getValueAt(selectedRow,0);
-                    //按id查询房间，如果没有查到，就说明这个房型下面没有房间，可以直接删除
-                    //否则不能删除，可以给用户一个提示
-                    service.deleteId(id);
-                }
-                //清除表格中的数据
-                for(int i=selectedRows.length-1;i>=0;i--){
-                    int x=table1.getSelectedRow();
-                    model.removeRow(x);
-                }
-            }
-
-        }
-        table1.updateUI();//刷新界面
+        TableUtil.delete(table1,model,service);
     }
 
     private void goBack(ActionEvent e) {

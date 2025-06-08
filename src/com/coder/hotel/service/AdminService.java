@@ -5,5 +5,9 @@ package com.coder.hotel.service;
  * @project HotelManager
  * @date 2025/4/14
  */
-public class AdminService {
+public class AdminService extends BaseService{
+    @Override
+    public int deleteId(Object id) {
+        return 0;
+    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @project HotelManager
  * @date 2025/4/30
  */
-public class RoomInfoService {
+public class RoomInfoService extends BaseService{
     private static RoomInfoDao dao;
     static {
         dao=new RoomInfoDaoImpl();

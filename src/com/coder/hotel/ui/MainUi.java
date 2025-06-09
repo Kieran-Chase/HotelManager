@@ -4,6 +4,7 @@
 
 package com.coder.hotel.ui;
 
+import com.coder.hotel.ui.goodsInfo.GoodsInfoUi;
 import com.coder.hotel.ui.goodstype.GoodsTypeUi;
 import com.coder.hotel.ui.memberInfo.MemberInfoUi;
 import com.coder.hotel.ui.memberlevel.MemberLevelUi;
@@ -48,7 +49,9 @@ public class MainUi extends JFrame {
     private void goGoodType(ActionEvent e){
         UiUtil.indent(UI, GoodsTypeUi.getInstance());
     }
-
+    private void goGoodsInfo(ActionEvent e){
+        UiUtil.indent(UI, GoodsInfoUi.getInstance());
+    }
 
     private void initComponents() {
         setResizable(false);
@@ -134,6 +137,7 @@ public class MainUi extends JFrame {
         button8.setIcon(new ImageIcon(getClass().getResource("/img/\u5546\u54c1\u7ba1\u7406.png")));
         contentPane.add(button8);
         button8.setBounds(630, 230, 115, 115);
+        button8.addActionListener(this::goGoodsInfo);
 
         //---- button9 ----
         button9.setText("\u5546\u54c1\u8ba2\u5355");

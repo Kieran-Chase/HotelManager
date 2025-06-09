@@ -1,6 +1,7 @@
 package com.coder.hotel.dao;
 
 import com.coder.hotel.entity.GoodsInfo;
+import com.coder.hotel.entity.GoodsInfoQuery;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface GoodsInfoDao {
     int update (GoodsInfo info);
     int delete(Object id);
     GoodsInfo selectId(Object id);
-    List<GoodsInfo> selectByExample(GoodsInfo info,int page);
+    List<GoodsInfo> selectByExample(GoodsInfoQuery info, int page);
     Object[][] listToArray(List<GoodsInfo>list);
-    Long getTotal(GoodsInfo info);
+    Long getTotal(GoodsInfoQuery info);
 }

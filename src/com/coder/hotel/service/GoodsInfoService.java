@@ -3,6 +3,7 @@ package com.coder.hotel.service;
 import com.coder.hotel.dao.GoodsInfoDao;
 import com.coder.hotel.dao.impl.GoodsInfoDaoImpl;
 import com.coder.hotel.entity.GoodsInfo;
+import com.coder.hotel.entity.GoodsInfoQuery;
 import com.coder.hotel.util.Page;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @project HotelManager
  * @date 2025/6/9
  */
-public class GoodsInfoService {
+public class GoodsInfoService extends BaseService {
     private static GoodsInfoDao dao;
     static {
         dao=new GoodsInfoDaoImpl();
@@ -20,11 +21,11 @@ public class GoodsInfoService {
     public int save (GoodsInfo info){
         return dao.save(info);
     }
-    public Object [][] selectExample(GoodsInfo info,int page){
+    public Object [][] selectExample(GoodsInfoQuery info, int page){
         List<GoodsInfo> GoodsInfos=dao.selectByExample(info,page);
         return dao.listToArray(GoodsInfos);
     }
-    public Page getPage(GoodsInfo info, long page){
+    public Page getPage(GoodsInfoQuery info, long page){
         long total=dao.getTotal(info);
         long size=5;
         long pages=total%size==0?total/size:total/size+1;

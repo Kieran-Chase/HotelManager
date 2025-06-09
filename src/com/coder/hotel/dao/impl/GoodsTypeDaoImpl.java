@@ -5,6 +5,7 @@ import com.coder.hotel.entity.GoodsType;
 import com.coder.hotel.util.DBUtil;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -32,6 +33,15 @@ public class GoodsTypeDaoImpl extends BaseDao<GoodsType> implements GoodsTypeDao
 
     @Override
     public Integer getIdByType(String type) {
-        return 0;
+        String sql="select id from goodstype where typename=?";
+        QueryRunner queryRunner=new QueryRunner(DBUtil.getDataSource());
+        try {
+            return queryRunner.query(sql,
+                    new ScalarHandler<>(),type);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
 }

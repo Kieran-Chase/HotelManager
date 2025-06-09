@@ -39,6 +39,7 @@ new FormModel {
 					name: "queryBtn"
 					"text": "查询"
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/查询.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "query", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 575
 					"y": 10
@@ -73,7 +74,7 @@ new FormModel {
 					"y": 15
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField2"
+					name: "nameVal"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"width": 80
 					"height": 40
@@ -81,7 +82,7 @@ new FormModel {
 					"y": 10
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField3"
+					name: "lowPriceVal"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"width": 80
 					"height": 40
@@ -89,7 +90,7 @@ new FormModel {
 					"y": 10
 				} )
 				add( new FormComponent( "javax.swing.JComboBox" ) {
-					name: "comboBox1"
+					name: "typeVal"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 65
 					"y": 10
@@ -104,7 +105,7 @@ new FormModel {
 					"y": 19
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "textField1"
+					name: "highPriceVal"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 490
 					"y": 10
@@ -112,8 +113,9 @@ new FormModel {
 					"height": 40
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button5"
+					name: "clearBtn"
 					"text": "清空"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "clear", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 660
 					"y": 10
@@ -130,6 +132,7 @@ new FormModel {
 				name: "addBtn"
 				"text": "新增"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/新增.png" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "add", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 90
 				"height": 50
@@ -140,6 +143,7 @@ new FormModel {
 				name: "deleteBtn"
 				"text": "删除"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/删 除 .png" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "delete", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 85
 				"height": 50
@@ -150,6 +154,7 @@ new FormModel {
 				name: "updateBtn"
 				"text": "修改"
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/修改.png" )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "update", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 85
 				"height": 50
@@ -223,8 +228,9 @@ new FormModel {
 				"y": 430
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button1"
+				name: "firstBtn"
 				"text": "首页"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "first", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 90
 				"height": 40
@@ -232,8 +238,9 @@ new FormModel {
 				"y": 420
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button2"
+				name: "previousBtn"
 				"text": "上一页"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "previous", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 90
 				"height": 40
@@ -241,8 +248,9 @@ new FormModel {
 				"y": 420
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button3"
+				name: "nextBtn"
 				"text": "下一页"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "next", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 90
 				"height": 40
@@ -250,8 +258,9 @@ new FormModel {
 				"y": 420
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button4"
+				name: "lastBtn"
 				"text": "尾页"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "last", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 90
 				"height": 40
